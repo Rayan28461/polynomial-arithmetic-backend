@@ -84,3 +84,4 @@ python cli.py pre-stage
 ## Contributors
 
 - [Rayan Fakhreddine](https://github.com/Rayan28461)
+- [Assaad Mark Rabay] (https://github.com/assaad-23)
