@@ -1,5 +1,7 @@
 import pytest
+
 from src.common.utils.types.HexStr import HexStr, validate_hex_str
+
 
 class TestHexStr:
     def test_hex_str(self, valid_hex_input: HexStr) -> None:

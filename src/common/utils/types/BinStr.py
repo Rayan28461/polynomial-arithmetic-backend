@@ -1,6 +1,8 @@
-from typing import Annotated
-from pydantic.functional_validators import BeforeValidator
 import re
+from typing import Annotated
+
+from pydantic.functional_validators import BeforeValidator
+
 
 def validate_bin_str(value: str) -> str:
     """
@@ -15,8 +17,9 @@ def validate_bin_str(value: str) -> str:
     Raises:
         ValueError: If the input string is not a valid binary string.
     """
-    if not re.match(r'^[01]*$', value):
-        raise ValueError('Invalid binary string')
+    if not re.match(r"^[01]*$", value):
+        raise ValueError("Invalid binary string")
     return value
+
 
 BinStr = Annotated[str, BeforeValidator(validate_bin_str)]

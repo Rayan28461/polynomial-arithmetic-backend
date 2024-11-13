@@ -1,5 +1,7 @@
 import pytest
+
 from src.common.utils.types.BinStr import BinStr, validate_bin_str
+
 
 @pytest.mark.asyncio
 class TestBinStr:

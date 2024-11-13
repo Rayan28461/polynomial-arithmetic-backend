@@ -1,6 +1,10 @@
 import binascii
+
+from galois import FieldArray
+
 from ..types.BinStr import BinStr
 from ..types.HexStr import HexStr
+
 
 class Converters:
     """
@@ -24,7 +28,7 @@ class Converters:
         try:
             binary_data = binascii.unhexlify(hex_str)  # Convert hex to bytes
             # Convert each byte to an 8-bit binary string and join them
-            return ''.join(format(byte, '08b') for byte in binary_data)
+            return "".join(format(byte, "08b") for byte in binary_data)
         except binascii.Error:
             raise TypeError("Invalid hex input")
 
@@ -39,7 +43,39 @@ class Converters:
         Returns:
             HexStr: The resulting hexadecimal string.
         """
-        def str_to_bytes(bin_str: str) -> bytes:
-            return bytes(int(bin_str[i:i+8], 2) for i in range(0, len(bin_str), 8))
 
-        return binascii.hexlify(str_to_bytes(bin_str)).decode('utf-8')
+        def str_to_bytes(bin_str: str) -> bytes:
+            return bytes(int(bin_str[i : i + 8], 2) for i in range(0, len(bin_str), 8))
+
+        return binascii.hexlify(str_to_bytes(bin_str)).decode("utf-8")
+
+    @staticmethod
+    def binStr_to_list(string: BinStr) -> list[int]:
+        """
+        Convert a binary string to a list of integers.
+
+        Args:
+            string (BinStr): The binary string to convert.
+
+        Returns:
+            list[int]: The resulting list of integers.
+
+        Raises:
+            TypeError: If the input binary string is invalid.
+        """
+        if not isinstance(string, str) or not all(c in "01" for c in string):
+            raise TypeError("Input must be a binary string containing only '0' and '1'")
+        return [int(bit) for bit in string]
+
+    @staticmethod
+    def list_to_binStr(lst: FieldArray) -> BinStr:
+        """
+        Convert a list of integers to a binary string.
+
+        Args:
+            lst (list[int]): The list of integers to convert.
+
+        Returns:
+            BinStr: The resulting binary string.
+        """
+        return "".join(str(bit) for bit in lst)
