@@ -58,7 +58,7 @@ class Converters:
             string (BinStr): The binary string to convert.
 
         Returns:
-            list[int]: The resulting list of integers.
+            FieldArray: The resulting list of integers.
 
         Raises:
             TypeError: If the input binary string is invalid.
@@ -68,14 +68,18 @@ class Converters:
         return [int(bit) for bit in string]
 
     @staticmethod
-    def list_to_binStr(lst: FieldArray) -> BinStr:
+    def fieldArray_to_binStr(lst: FieldArray) -> BinStr:
         """
         Convert a list of integers to a binary string.
 
         Args:
-            lst (list[int]): The list of integers to convert.
+            lst (FieldArray): The list of integers to convert.
 
         Returns:
             BinStr: The resulting binary string.
         """
+        if not isinstance(lst, FieldArray) or not all(
+            isinstance(bit, int) for bit in lst
+        ):
+            raise ValueError("Input must be a list of integers")
         return "".join(str(bit) for bit in lst)

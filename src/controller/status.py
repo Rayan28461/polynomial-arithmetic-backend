@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status
 
-from src.common.responses import APIResponse
+from src.common.responses import APIResponse, APIResponseModel
 
 status_router = APIRouter(
     prefix="/status",
@@ -11,6 +11,7 @@ status_router = APIRouter(
 @status_router.get(
     "",
     response_class=APIResponse,
+    response_model=APIResponseModel,
     response_description="Status check",
     responses={
         status.HTTP_200_OK: {"description": "Status check successful"},
