@@ -50,24 +50,6 @@ class Converters:
         return binascii.hexlify(str_to_bytes(bin_str)).decode("utf-8")
 
     @staticmethod
-    def binStr_to_list(string: BinStr) -> list[int]:
-        """
-        Convert a binary string to a list of integers.
-
-        Args:
-            string (BinStr): The binary string to convert.
-
-        Returns:
-            FieldArray: The resulting list of integers.
-
-        Raises:
-            TypeError: If the input binary string is invalid.
-        """
-        if not isinstance(string, str) or not all(c in "01" for c in string):
-            raise TypeError("Input must be a binary string containing only '0' and '1'")
-        return [int(bit) for bit in string]
-
-    @staticmethod
     def fieldArray_to_binStr(lst: FieldArray) -> BinStr:
         """
         Convert a list of integers to a binary string.
@@ -78,8 +60,6 @@ class Converters:
         Returns:
             BinStr: The resulting binary string.
         """
-        if not isinstance(lst, FieldArray) or not all(
-            isinstance(bit, int) for bit in lst
-        ):
+        if not isinstance(lst, FieldArray):
             raise ValueError("Input must be a list of integers")
         return "".join(str(bit) for bit in lst)

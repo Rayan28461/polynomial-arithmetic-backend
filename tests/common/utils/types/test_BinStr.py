@@ -3,7 +3,6 @@ import pytest
 from src.common.utils.types.BinStr import BinStr, validate_bin_str
 
 
-@pytest.mark.asyncio
 class TestBinStr:
     def test_bin_str(self, valid_bin_input: BinStr) -> None:
         assert validate_bin_str(valid_bin_input) == valid_bin_input

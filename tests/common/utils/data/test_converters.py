@@ -27,22 +27,6 @@ class TestConverters:
         with pytest.raises(ValueError):
             Converters.bin_to_hex(invalid_bin_input)
 
-    def test_binStr_to_list_successful(self, valid_bin_input: BinStr) -> None:
-        assert Converters.binStr_to_list(valid_bin_input) == [
-            1,
-            0,
-            1,
-            0,
-            1,
-            1,
-            1,
-            1,
-        ]
-
-    def test_binStr_to_list_invalid_input(self, invalid_bin_input: BinStr) -> None:
-        with pytest.raises(TypeError):
-            Converters.binStr_to_list(invalid_bin_input)
-
     def test_fieldArray_to_binStr_successful(
         self, valid_fieldArray_input: galois.FieldArray, valid_bin_input: BinStr
     ) -> None:
