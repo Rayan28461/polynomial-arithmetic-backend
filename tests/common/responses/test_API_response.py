@@ -1,6 +1,8 @@
 import pytest
-from src.common.responses.API_response import APIResponse
 from fastapi import status
+
+from src.common.responses.API_response import APIResponse
+
 
 class TestApiResponse:
     @pytest.mark.parametrize(
@@ -10,9 +12,18 @@ class TestApiResponse:
             ("Test message", status.HTTP_201_CREATED, {"key": "value"}),
         ],
     )
-    def test_api_response_successful(self, message, status_code, data):
+    def test_api_response_successful(
+        self, message: str, status_code: int, data: dict[str, str]
+    ) -> None:
         response = APIResponse(message, status_code, data)
-        res = eval(response.body.decode("utf-8"))
+
+        # Decode only if response.body is of type bytes
+        res_body = response.body
+        if isinstance(res_body, bytes):
+            res = eval(res_body.decode("utf-8"))
+        elif isinstance(res_body, memoryview):
+            res = eval(res_body.tobytes().decode("utf-8"))
+
         assert response.status_code == status_code
         assert res["message"] == message
         assert res["data"] == data
@@ -25,6 +36,8 @@ class TestApiResponse:
             ("Test message", None, {}),
         ],
     )
-    def test_api_response_invalid(self, message, status_code, data):
+    def test_api_response_invalid(
+        self, message: str, status_code: int, data: dict[str, str]
+    ) -> None:
         with pytest.raises(ValueError):
             APIResponse(message, status_code, data)

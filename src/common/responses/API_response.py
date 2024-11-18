@@ -1,21 +1,24 @@
-from typing import Any
+from typing import Any, Optional
+
 from fastapi import status
 from fastapi.responses import JSONResponse as FastAPIJSONResponse
+
 
 class APIResponse(FastAPIJSONResponse):
     """
     Custom API response class inheriting from FastAPI's JSONResponse.
-    
+
     Attributes:
         media_type (str): The media type of the response, set to "application/json".
     """
+
     media_type = "application/json"
 
     def __init__(
         self,
         message: str,
         status_code: int = status.HTTP_200_OK,
-        data: dict[str, Any] = {},
+        data: Optional[dict[str, Any]] = None,
     ) -> None:
         """
         Initialize the APIResponse instance.
@@ -34,7 +37,7 @@ class APIResponse(FastAPIJSONResponse):
             raise ValueError("status_code must be provided")
         content = {
             "message": message,
-            "data": data,
+            "data": data or {},
         }
         super().__init__(
             content=content,
