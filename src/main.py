@@ -25,6 +25,12 @@ app.include_router(services_router)
 
 @app.get("/", response_class=HTMLResponse)
 async def root() -> HTMLResponse:
+    """
+    Root endpoint that returns a simple HTML response.
+
+    Returns:
+        HTMLResponse: A simple HTML page with a welcome message.
+    """
     html_content = """
     <html>
         <head>

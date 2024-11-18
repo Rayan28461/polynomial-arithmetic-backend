@@ -19,6 +19,12 @@ status_router = APIRouter(
     },
 )
 async def status_check() -> APIResponse:
+    """
+    Endpoint to check the status of the service.
+
+    Returns:
+        APIResponse: An API response object containing a message and status code.
+    """
     return APIResponse(
         message="Status check successful",
         status_code=status.HTTP_200_OK,
