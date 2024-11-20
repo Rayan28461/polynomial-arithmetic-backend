@@ -34,7 +34,7 @@ async def root() -> HTMLResponse:
     html_content = """
     <html>
         <head>
-            <title>Polynomial Arithmetic in GF Calculator API</title>
+            <title>Polynomial rithmetic in GF Calculator API</title>
             <style>
                 body {
                     font-family: Arial, sans-serif;
