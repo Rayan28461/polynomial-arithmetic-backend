@@ -1,36 +1,45 @@
-# Name of this action
-name: Jest Automatic Testing
+name: Pre Merge Checks
 
-# Event triggers on pull request event
-# For more detail visit https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#on
-on: pull_request
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
-# The jobs this action will run. You can write as many jobs as you want.
-# For more detail on this section visit https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobs
 jobs:
-  # ID of the job
-  run-jest-tests:
-    # Name of the job as it will be displayed in GitHub
-    name: Jest Tests
-    # Machine which this action will be run on. For a list of all the machines available/how to run on self hosted machine visit
-    # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+  pre-merge-checks:
     runs-on: ubuntu-latest
-
-    # Steps this job must take to complete
     steps:
-      # Reference the main branch. For more information visit https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idstepsuses
-      - name: Checkout under $GITHUB_WORKSPACE
-        uses: actions/checkout@main
-
-      # Specify which version of Node this project is using. For more information visit.
-      # https://docs.github.com/en/actions/guides/building-and-testing-nodejs#specifying-the-nodejs-version
-      - name: Set up NodeJS
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
         with:
-          node-version: 14
+          python-version: '3.12'
 
-      - name: Install all dependencies
-        run: npm install
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-      - name: Run Jest Tests
-        run: npm run test
+      - name: isort check
+        run: isort --check-only --profile black src tests cli.py
+
+      - name: black check
+        run: black --check src tests cli.py
+
+      - name: mypy check
+        run: mypy src tests cli.py
+
+      - name: Run tests
+        run: pytest tests
+      
+      - name: Create PR review request
+        if : github.event_name == 'pull_request' && github.event.pull_request.user.login != 'jadshaker'
+        run: |
+          gh api \
+          --method POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/requested_reviewers \
+          -f "reviewers[]=jadshaker" \
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
