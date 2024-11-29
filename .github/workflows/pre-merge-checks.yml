@@ -33,13 +33,13 @@ jobs:
         run: pytest tests
       
       - name: Create PR review request
-        if : github.event_name == 'pull_request' && github.event.pull_request.user.login != 'jadshaker'
+        if : github.event_name == 'pull_request' && github.event.pull_request.user.login != 'Rayan28461'
         run: |
           gh api \
           --method POST \
           -H "Accept: application/vnd.github+json" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/requested_reviewers \
-          -f "reviewers[]=jadshaker" \
+          -f "reviewers[]=Rayan28461" \
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
