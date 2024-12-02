@@ -24,6 +24,18 @@ def valid_binary_input_large_m() -> dict[str, str]:
         "input_type": "binary",
     }
 
+@pytest.fixture
+def valid_binary_input_large_m_div() -> dict[str, str]:
+    """
+    Fixture for a valid binary input with a large m value (e.g., m=233),
+    with poly2 as a mixed pattern.
+    """
+    return {
+        "poly1": "1" * 233,  # Large binary string of length 233
+        "poly2": "1010" * 58 + "1",  # Mixed binary pattern of length 233
+        "input_type": "binary",
+    }
+
 
 @pytest.fixture
 def valid_hex_input_small_m() -> dict[str, str]:
@@ -45,6 +57,18 @@ def valid_hex_input_large_m() -> dict[str, str]:
     return {
         "poly1": "F" * 58,  # Large hexadecimal string of length 58 (233 bits)
         "poly2": "0" * 58,  # Another large hex string with a different pattern
+        "input_type": "hexadecimal",
+    }
+
+@pytest.fixture
+def valid_hex_input_large_m_div() -> dict[str, str]:
+    """
+    Fixture for a valid hexadecimal input with a large m value (e.g., m=233),
+    with poly2 as a mixed pattern.
+    """
+    return {
+        "poly1": "F" * 58,  # Large hexadecimal string of length 58 (233 bits)
+        "poly2": "A5" * 29 ,  # Mixed hex pattern of exactly 233 bits
         "input_type": "hexadecimal",
     }
 
