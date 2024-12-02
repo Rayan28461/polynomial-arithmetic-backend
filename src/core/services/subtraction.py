@@ -1,4 +1,5 @@
 import galois
+from src.core.services.subtraction import modReduction as mod
 
 def subtraction(poly1:str, poly2:str, inputType: str, m:int=163) -> galois.FieldArray:
     """
@@ -7,6 +8,7 @@ def subtraction(poly1:str, poly2:str, inputType: str, m:int=163) -> galois.Field
     Arguments:
     poly1: The first polynomial in binary or hexadecimal format.
     poly2: The second polynomial in binary or hexadecimal format.
+    poly1 and poly2 are assumed to be valid inputs for GF(2^m).
     inputType: The format of both input polynomials ('binary' or 'hexadecimal').
     m(int,optional) : The degree of the polynomial field. Set to 163 if not specified.
 
@@ -32,6 +34,7 @@ def subtraction(poly1:str, poly2:str, inputType: str, m:int=163) -> galois.Field
             fieldPoly2=gf(int(poly2,16))
         else: #If the input is not in binary or decimal
             raise ValueError('Invalid input type!')
+
         result = fieldPoly1-fieldPoly2 #compute the subtraction
         if inputType == 'binary':
             return bin(int(result))[2:].zfill(m)  # Binary string padded to m bits and removing the prefix 
