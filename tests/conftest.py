@@ -20,4 +20,6 @@ from .fixtures.core.services.operations import (
     valid_binary_input_small_m,
     valid_hex_input_large_m,
     valid_hex_input_small_m,
+    valid_hex_input_large_m_div,
+    valid_binary_input_large_m_div
 )
