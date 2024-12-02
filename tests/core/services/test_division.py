@@ -11,11 +11,12 @@ class TestDivide:
         assert result == int("10001111", 2)  
 
     def test_divide_binary_large_m_successful(
-        self, valid_binary_input_large_m: dict[str, str], m_large: int
+        self, valid_binary_input_large_m_div: dict[str, str], m_large: int
     ) -> None:
-        poly1, poly2, input_type = valid_binary_input_large_m.values()
-        with pytest.raises(ValueError, match="Division by zero is not allowed in Galois fields"):
-            divide(poly1=poly1, poly2=poly2, input_type=input_type, m=m_large)
+        poly1, poly2, input_type = valid_binary_input_large_m_div.values()
+        result = divide(poly1=poly1, poly2=poly2, input_type=input_type, m=m_large)
+        assert result == int("10110000010011001101000011010101011100010111111110010011100000001011010010000001110111011000001001100110100001101010101110001011111111001001110000000101101001000000111011101100000100110011010000110101010111000101111111100100110000011",2)
+
 
     def test_divide_hex_small_m_successful(
         self, valid_hex_input_small_m: dict[str, str], m_small: int
@@ -25,11 +26,11 @@ class TestDivide:
         assert result == int("54", 16) 
 
     def test_divide_hex_large_m_successful(
-        self, valid_hex_input_large_m: dict[str, str], m_large: int
+        self, valid_hex_input_large_m_div: dict[str, str], m_large: int
     ) -> None:
-        poly1, poly2, input_type = valid_hex_input_large_m.values()
-        with pytest.raises(ValueError, match="Division by zero is not allowed in Galois fields"):
-            divide(poly1=poly1, poly2=poly2, input_type=input_type, m=m_large)
+        poly1, poly2, input_type = valid_hex_input_large_m_div.values()
+        result = divide(poly1=poly1, poly2=poly2, input_type=input_type, m=m_large)
+        assert result == int("5294A5294A5294A5294A5294A5294A5294A5294A5294A5294A5294A53A",16)
 
 
     def test_divide_invalid_bin_input(
