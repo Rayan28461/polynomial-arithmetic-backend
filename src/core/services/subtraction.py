@@ -24,7 +24,9 @@ def subtraction(poly1:str, poly2:str, inputType: str, m:int=163) :
     fieldPoly2=None
 
     try:
-        #Convert based on the input type to base 10
+        #If the input is not compatible with the galois field perform modulo reduction with the irreducible polynomial
+        
+        #Convert based on the input type to the integer representation
         if inputType=='binary': #If the input is in base 2
             fieldPoly1=gf(int(poly1,2))
             fieldPoly2=gf(int(poly2,2))
