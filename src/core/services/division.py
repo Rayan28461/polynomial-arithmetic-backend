@@ -1,5 +1,6 @@
 import galois
 
+
 def divide(poly1: str, poly2: str, input_type: str, m: int = 163) -> galois.FieldArray:
     """
     Divides two polynomials in a Galois field.
@@ -27,14 +28,14 @@ def divide(poly1: str, poly2: str, input_type: str, m: int = 163) -> galois.Fiel
         elif input_type == "hexadecimal":
             field_poly1 = gf(int(poly1, 16))
             field_poly2 = gf(int(poly2, 16))
-        
+
         if field_poly1 is None or field_poly2 is None:
             raise ValueError("Invalid input type")
-        
+
         # Perform division
         if field_poly2 == 0:
             raise ValueError("Division by zero is not allowed in Galois fields")
-        
+
         return field_poly1 / field_poly2
     except ValueError as e:
         raise ValueError(e)

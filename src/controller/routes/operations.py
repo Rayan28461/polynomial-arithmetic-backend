@@ -74,8 +74,9 @@ async def addition(
         )
 
 
-#division
+# division
 from src.core.services.division import divide  # Import the division function
+
 
 @services_router.post(
     "/division", response_class=APIResponse, response_model=APIResponseModel
@@ -119,9 +120,9 @@ async def division(
         result = None
 
         if output_type == "binary":
-            result = format(poly_quotient, f"0{m}b")  
+            result = format(poly_quotient, f"0{m}b")
         elif output_type == "hexadecimal":
-            result = format(poly_quotient, f"0{m//4}x")  
+            result = format(poly_quotient, f"0{m//4}x")
 
         return APIResponse(
             message="Polynomials divided successfully!",
