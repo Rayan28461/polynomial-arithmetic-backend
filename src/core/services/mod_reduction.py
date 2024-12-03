@@ -22,12 +22,20 @@ def modReduction(poly1:str, divisor:str, inputType:str, m:int=163):
     fieldPoly1=None
     fieldPoly2=None
 
-    irreduciblePoly = gf._irreducible_poly_int
+    irreduciblePoly=gf.irreducible_poly #Extract the irreducible polynomial stored in the library
+    integerRep=int(irreduciblePoly) #Integer representation of the irreducible polynomial
 
-    if len(poly1)>m:
-        poly1=gf2Mod(poly1,irreduciblePoly)
-    elif len(poly2)>m:
-        poly2=gf2Mod(poly2,irreduciblePoly)
+    #If the input is not compatible in the galois field of the input    
+    if inputType=='binary':
+        if int(poly1,2)>2**m:
+            poly1=gf2Mod(poly1, integerRep)
+        elif int(poly2,2)>2**m:
+            poly2=gf2Mod(poly2,integerRep)
+    elif inputType=='hexadecimal':
+        if int(poly1,16)>2**m:
+            poly1=gf2Mod(poly1, integerRep)
+        elif int(poly2,16)>2**m:
+            poly2=gf2Mod(poly2,integerRep)
 
     try:
         #Convert based on the input type to base 10
@@ -43,16 +51,16 @@ def modReduction(poly1:str, divisor:str, inputType:str, m:int=163):
         result=gf2Mod(fieldPoly1, fieldPoly2) #Compute the Remainder of the division (poly1%poly2)
 
         if inputType == 'binary': #Convert result into binary
-            return bin(int(result))[2:].zfill(m)  # Binary string padded to m bits and removing the prefix 
+            return bin(int(result))[2:].zfill(m)  #Binary string padded to m bits and removing the prefix 
         elif inputType == 'hexadecimal': #Convert result into hexadecimal
-            return hex(int(result))[2:].upper().zfill(m // 4)  # Hex string padded to m/4 characters and removing the prefix
+            return hex(int(result))[2:].upper().zfill(m // 4)  #Hex string padded to m/4 characters and removing the prefix
         return result #return the result 
 
     except ValueError as e:
         raise ValueError(e)
         
 
-def gf2Mod(poly:int, mod:int) ->int :
+def gf2Mod(poly:int, mod:int):
     """
     Perform modulo reduction of a polynomial over GF(2^m).
     
@@ -63,10 +71,10 @@ def gf2Mod(poly:int, mod:int) ->int :
     Returns: Integer representation of the remainder polynomial.
     """
 
-    mod_degree=mod.bit_length()-1  # Degree of the modulus polynomial
+    mod_degree=mod.bit_length()-1  #Degree of the modulus polynomial
     
     while poly.bit_length()-1 >= mod_degree:
-        degree_diff=poly.bit_length() - mod_degree - 1 # Degree difference
-        poly^=mod<<degree_diff # XOR the mod shifted to align with poly's leading term
+        degree_diff=poly.bit_length() - mod_degree - 1 #Degree difference
+        poly^=mod<<degree_diff #XOR the mod shifted to align with poly's leading term
     
     return poly
