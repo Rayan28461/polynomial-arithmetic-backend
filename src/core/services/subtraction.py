@@ -1,6 +1,6 @@
 import galois
 
-def subtraction(poly1:str, poly2:str, inputType: str, m:int=163) -> galois.FieldArray:
+def subtraction(poly1:str, poly2:str, inputType: str, m:int=163) :
     """
     Subtracts 2 polynomials in a Galois Field GF(2^m).
 
@@ -12,7 +12,7 @@ def subtraction(poly1:str, poly2:str, inputType: str, m:int=163) -> galois.Field
     m(int,optional) : The degree of the polynomial field. Set to 163 if not specified.
 
     Returns:
-    galois.FieldArray: The result of the subtraction in a the Galois Field.
+    The result of the subtraction in a the Galois Field .
 
     Raises:
     ValueError: If the input type is invalid or conversion fails.
