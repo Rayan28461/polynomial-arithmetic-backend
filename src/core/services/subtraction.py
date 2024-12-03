@@ -1,5 +1,4 @@
 import galois
-from src.core.services.subtraction import modReduction as mod
 
 def subtraction(poly1:str, poly2:str, inputType: str, m:int=163) -> galois.FieldArray:
     """
@@ -35,10 +34,11 @@ def subtraction(poly1:str, poly2:str, inputType: str, m:int=163) -> galois.Field
         else: #If the input is not in binary or decimal
             raise ValueError('Invalid input type!')
 
-        result = fieldPoly1-fieldPoly2 #compute the subtraction
-        if inputType == 'binary':
+        result = fieldPoly1-fieldPoly2 #Compute the subtraction (galois.FieldArray is interger)
+
+        if inputType == 'binary': #Convert result into binary
             return bin(int(result))[2:].zfill(m)  # Binary string padded to m bits and removing the prefix 
-        elif inputType == 'hexadecimal':
+        elif inputType == 'hexadecimal': #Convert result into hexadecimal
             return hex(int(result))[2:].upper().zfill(m // 4)  # Hex string padded to m/4 characters and removing the prefix
         return result #return the result 
     
