@@ -26,21 +26,22 @@ def sub(poly1:str, poly2:str, inputType: str, m:int=163) :
 
     try:
          #If the input is not compatible in the galois field of the input    
+         #If the input is not compatible in the galois field of the input    
         if inputType=='binary':
             if int(poly1,2)>2**m:
                 if m!=571:
                     irreduciblePoly=gf.irreducible_poly 
                     integerRep=int(irreduciblePoly) 
                     poly1=gf2Mod(int(poly1,2), integerRep, inputType, m)
-                if m==571: #The most use GF(2^571) polynomial since not stored in library is : x^571 + x^507 + x^475 + 1
+                elif m==571: #The most use GF(2^571) polynomial since not stored in library is : x^571 + x^507 + x^475 + 1
                     integerRep=2**571+2**507+2**475+1
                     poly1=gf2Mod(int(poly1,2), integerRep, inputType, m)
-            elif int(poly2,2)>2**m:
+            if int(poly2,2)>2**m:
                 if m!=571:
                     irreduciblePoly=gf.irreducible_poly 
                     integerRep=int(irreduciblePoly)
                     poly2=gf2Mod(int(poly2,2), integerRep, inputType, m)
-                if m==571: #The most use GF(2^571) polynomial since not stored in library is : x^571 + x^507 + x^475 + 1
+                elif m==571: #The most use GF(2^571) polynomial since not stored in library is : x^571 + x^507 + x^475 + 1
                     integerRep=2**571+2**507+2**475+1
                     poly2=gf2Mod(int(poly2,2), integerRep, inputType, m)
         elif inputType=='hexadecimal':
@@ -49,15 +50,15 @@ def sub(poly1:str, poly2:str, inputType: str, m:int=163) :
                     irreduciblePoly=gf.irreducible_poly 
                     integerRep=int(irreduciblePoly) 
                     poly1=gf2Mod(int(poly1,16), integerRep, inputType, m)
-                if m==571: #The most use GF(2^571) polynomial since not stored in library is : x^571 + x^507 + x^475 + 1
+                elif m==571: #The most use GF(2^571) polynomial since not stored in library is : x^571 + x^507 + x^475 + 1
                     integerRep=2**571+2**507+2**475+1
                     poly1=gf2Mod(int(poly1,2), integerRep, inputType, m)
-            elif int(poly2,16)>2**m:
+            if int(poly2,16)>2**m:
                 if m!=571:
                     irreduciblePoly=gf.irreducible_poly 
                     integerRep=int(irreduciblePoly) 
                     poly2=gf2Mod(int(poly2,2), integerRep, inputType, m)
-                if m==571:
+                elif m==571:
                     integerRep=2**571+2**507+2**475+1
                     poly2=gf2Mod(int(poly2,16),integerRep, inputType, m)
 
