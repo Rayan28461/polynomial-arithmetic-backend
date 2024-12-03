@@ -1,4 +1,5 @@
 import galois
+from src.core.services.mod_reduction import gf2Mod
 
 def subtraction(poly1:str, poly2:str, inputType: str, m:int=163) :
     """
@@ -24,8 +25,42 @@ def subtraction(poly1:str, poly2:str, inputType: str, m:int=163) :
     fieldPoly2=None
 
     try:
-        #If the input is not compatible with the galois field perform modulo reduction with the irreducible polynomial
-        
+         #If the input is not compatible in the galois field of the input    
+        if inputType=='binary':
+            if int(poly1,2)>2**m:
+                if m!=571:
+                    irreduciblePoly=gf.irreducible_poly 
+                    integerRep=int(irreduciblePoly) 
+                    poly1=gf2Mod(int(poly1,2), integerRep, inputType, m)
+                if m==571: #The most use GF(2^571) polynomial since not stored in library is : x^571 + x^507 + x^475 + 1
+                    integerRep=2**571+2**507+2**475+1
+                    poly1=gf2Mod(int(poly1,2), integerRep, inputType, m)
+            elif int(poly2,2)>2**m:
+                if m!=571:
+                    irreduciblePoly=gf.irreducible_poly 
+                    integerRep=int(irreduciblePoly)
+                    poly2=gf2Mod(int(poly2,2), integerRep, inputType, m)
+                if m==571: #The most use GF(2^571) polynomial since not stored in library is : x^571 + x^507 + x^475 + 1
+                    integerRep=2**571+2**507+2**475+1
+                    poly2=gf2Mod(int(poly2,2), integerRep, inputType, m)
+        elif inputType=='hexadecimal':
+            if int(poly1,16)>2**m:
+                if m!=571:
+                    irreduciblePoly=gf.irreducible_poly 
+                    integerRep=int(irreduciblePoly) 
+                    poly1=gf2Mod(int(poly1,16), integerRep)
+                if m==571: #The most use GF(2^571) polynomial since not stored in library is : x^571 + x^507 + x^475 + 1
+                    integerRep=2**571+2**507+2**475+1
+                    poly1=gf2Mod(int(poly1,2), integerRep, inputType, m)
+            elif int(poly2,16)>2**m:
+                if m!=571:
+                    irreduciblePoly=gf.irreducible_poly 
+                    integerRep=int(irreduciblePoly) 
+                    poly2=gf2Mod(int(poly2,2), integerRep, inputType, m)
+                if m==571:
+                    integerRep=2**571+2**507+2**475+1
+                    poly2=gf2Mod(int(poly2,16),integerRep)
+
         #Convert based on the input type to the integer representation
         if inputType=='binary': #If the input is in base 2
             fieldPoly1=gf(int(poly1,2))
