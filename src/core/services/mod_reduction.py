@@ -89,11 +89,11 @@ def gf2Mod(poly:int, mod:int, inputType:str, m:int):
     Returns: Either a binary or hexadecimal representation of the remainder polynomial.
     """
 
-    mod_degree=mod.bit_length()-1  #Degree of the modulus polynomial
+    modDegree=mod.bit_length()-1  #Degree of the modulus polynomial
     
-    while poly.bit_length()-1 >= mod_degree:
-        degree_diff=poly.bit_length() - mod_degree - 1 #Degree difference
-        poly^=mod<<degree_diff #XOR the mod shifted to align with poly's leading term
+    while poly.bit_length()-1 >= modDegree:
+        degreeDiff=poly.bit_length() - modDegree - 1 #Degree difference
+        poly^=mod<<degreeDiff #XOR the mod shifted to align with poly's leading term
     
     if inputType == 'binary': #Convert result into binary
             return bin(int(poly))[2:].zfill(m)  #Binary string padded to m bits and removing the prefix 
