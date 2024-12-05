@@ -3,7 +3,9 @@ import galois
 from src.core.services.mod_reduction import gf2Mod
 
 
-def subtraction(poly1: str, poly2: str, inputType: str, m: int = 163) -> galois.FieldArray:
+def subtraction(
+    poly1: str, poly2: str, inputType: str, m: int = 163
+) -> galois.FieldArray:
     """
     Subtracts 2 polynomials in a Galois Field GF(2^m).
 
@@ -28,47 +30,59 @@ def subtraction(poly1: str, poly2: str, inputType: str, m: int = 163) -> galois.
 
     try:
         # If the input is not compatible in the galois field of the input
-        # If the input is not compatible in the galois field of the input
         if inputType == "binary":
             if int(poly1, 2) > 2**m:
                 if m != 571:
                     irreduciblePoly = gf.irreducible_poly
-                    integerRep = int(irreduciblePoly)
-                    poly1 = gf2Mod(int(poly1, 2), integerRep, inputType, m)
+                    intIrreduciblePoly = int(irreduciblePoly)
+                    irreduciblePolyStr = bin(intIrreduciblePoly)[2:]
+                    poly1 = gf2Mod(poly1, irreduciblePolyStr, inputType, m)
                 elif (
                     m == 571
                 ):  # The most use GF(2^571) polynomial since not stored in library is : x^571 + x^507 + x^475 + 1
                     integerRep = 2**571 + 2**507 + 2**475 + 1
-                    poly1 = gf2Mod(int(poly1, 2), integerRep, inputType, m)
+                    irreduciblePolyStr = bin(integerRep)[2:].zfill(
+                        m
+                    )  # Binary string padded to m bits and removing the prefix
+                    poly1 = gf2Mod(poly1, irreduciblePolyStr, inputType, m)
             if int(poly2, 2) > 2**m:
                 if m != 571:
                     irreduciblePoly = gf.irreducible_poly
-                    integerRep = int(irreduciblePoly)
-                    poly2 = gf2Mod(int(poly2, 2), integerRep, inputType, m)
+                    intIrreduciblePoly = int(irreduciblePoly)
+                    irreduciblePolyStr = bin(intIrreduciblePoly)[2:]
+                    poly2 = gf2Mod(poly2, irreduciblePolyStr, inputType, m)
                 elif (
                     m == 571
                 ):  # The most use GF(2^571) polynomial since not stored in library is : x^571 + x^507 + x^475 + 1
                     integerRep = 2**571 + 2**507 + 2**475 + 1
-                    poly2 = gf2Mod(int(poly2, 2), integerRep, inputType, m)
+                    irreduciblePolyStr = bin(integerRep)[2:].zfill(
+                        m
+                    )  # Binary string padded to m bits and removing the prefix
+                    poly2 = gf2Mod(poly2, irreduciblePolyStr, inputType, m)
         elif inputType == "hexadecimal":
             if int(poly1, 16) > 2**m:
                 if m != 571:
                     irreduciblePoly = gf.irreducible_poly
-                    integerRep = int(irreduciblePoly)
-                    poly1 = gf2Mod(int(poly1, 16), integerRep, inputType, m)
+                    intIrreduciblePoly = int(irreduciblePoly)
+                    irreduciblePolyStr = hex(intIrreduciblePoly)[2:]
+                    poly1 = gf2Mod(poly1, irreduciblePolyStr, inputType, m)
                 elif (
                     m == 571
                 ):  # The most use GF(2^571) polynomial since not stored in library is : x^571 + x^507 + x^475 + 1
                     integerRep = 2**571 + 2**507 + 2**475 + 1
-                    poly1 = gf2Mod(int(poly1, 2), integerRep, inputType, m)
+                    irreduciblePolyStr = hex(integerRep)[2:].upper().zfill(m // 4)
+                    # Hex string padded to m/4 characters and removing the prefix
+                    poly1 = gf2Mod(poly1, irreduciblePolyStr, inputType, m)
             if int(poly2, 16) > 2**m:
                 if m != 571:
                     irreduciblePoly = gf.irreducible_poly
-                    integerRep = int(irreduciblePoly)
-                    poly2 = gf2Mod(int(poly2, 2), integerRep, inputType, m)
+                    intIrreduciblePoly = int(irreduciblePoly)
+                    irreduciblePolyStr = hex(intIrreduciblePoly)[2:]
+                    poly2 = gf2Mod(poly2, irreduciblePolyStr, inputType, m)
                 elif m == 571:
                     integerRep = 2**571 + 2**507 + 2**475 + 1
-                    poly2 = gf2Mod(int(poly2, 16), integerRep, inputType, m)
+                    irreduciblePolyStr = hex(integerRep)[2:].upper().zfill(m // 4)
+                    poly2 = gf2Mod(poly2, irreduciblePolyStr, inputType, m)
 
         # Convert based on the input type to the integer representation
         if inputType == "binary":  # If the input is in base 2
