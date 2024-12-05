@@ -1,7 +1,9 @@
 import galois
 
-def multiplication(poly1: str, poly2: str, input_type: str, m: int = 163):
 
+def multiplication(
+    poly1: str, poly2: str, input_type: str, m: int = 163
+) -> galois.FieldArray:
     """
     Multiplies two polynomials in any Galois field.
     Args:
@@ -27,7 +29,7 @@ def multiplication(poly1: str, poly2: str, input_type: str, m: int = 163):
             field_poly2 = gf(int(poly2, 16))
         if field_poly1 is None or field_poly2 is None:
             raise ValueError("Invalid input type")
-#Do multiplication
+        # Do multiplication
         return field_poly1 * field_poly2
     except ValueError as e:
         raise ValueError(e)
