@@ -143,7 +143,7 @@ async def division(
             data={"result": None},
         )
 
-from src.core.services.multiplication import multiply
+from src.core.services.multiplication import multiplication
 
 @services_router.post(
     "/multiplication", response_class=APIResponse, response_model=APIResponseModel
@@ -176,7 +176,6 @@ async def multiplication(
                 data={"result": None},
             )
         
-        # Validate output type
         if output_type not in ["binary", "hexadecimal"]:
             return APIResponse(
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -184,8 +183,7 @@ async def multiplication(
                 data={"result": None},
             )
         
-        # Perform the multiplication
-        poly_product = multiply(poly1, poly2, input_type, m)
+        poly_product = multiplication(poly1, poly2, input_type, m)
         result = None 
         
         if output_type == "binary":
@@ -200,14 +198,12 @@ async def multiplication(
         )
 
     except ValueError as e:
-        # Handle invalid input values, parsing errors, or out-of-range values
         return APIResponse(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             message=str(e),
             data={"result": None},
         )
     except Exception as e:
-        # Catch-all for other unexpected errors
         return APIResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             message=str(e),

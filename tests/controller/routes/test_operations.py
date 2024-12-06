@@ -245,7 +245,7 @@ class TestDividePolynomials:
 
 #Multiplicatoin 
 from src.controller.routes.operations import multiplication
-
+@pytest.mark.asyncio
 class TestMultiplyPolynomials:
     async def test_multiplication_hex_polynomials_successful(
         self,
@@ -317,7 +317,6 @@ class TestMultiplyPolynomials:
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
-        # The message should be the specific error from your hex parsing
         assert res == {
             "message": "invalid literal for int() with base 16: '1G3H'",
             "data": {"result": None},
@@ -333,7 +332,6 @@ class TestMultiplyPolynomials:
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
-        # The message should be the specific error from your binary parsing
         assert res == {
             "message": "invalid literal for int() with base 2: '10101112'",
             "data": {"result": None},
@@ -349,7 +347,6 @@ class TestMultiplyPolynomials:
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
-        # The message should reflect the out-of-range error for the given field
         assert res == {
             "message": "GF(2^8) scalars must be in `0 <= x < 256`, not 4081.",
             "data": {"result": None},
