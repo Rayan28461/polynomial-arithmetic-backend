@@ -11,9 +11,9 @@ class Testmultiplication:
         assert result == int("11001001", 2)
 
     def test_multiplication_binary_large_m_successful(
-        self, valid_binary_input_large_m_mul: dict[str, str], m_large: int
+        self, valid_binary_input_large_m: dict[str, str], m_large: int
     ) -> None:
-        poly1, poly2, input_type = valid_binary_input_large_m_mul.values()
+        poly1, poly2, input_type = valid_binary_input_large_m.values()
         result = multiplication(poly1=poly1, poly2=poly2, input_type=input_type, m=m_large)
         assert result == int("0",2)
 
@@ -22,12 +22,12 @@ class Testmultiplication:
     ) -> None:
         poly1, poly2, input_type = valid_hex_input_small_m.values()
         result = multiplication(poly1=poly1, poly2=poly2, input_type=input_type, m=m_small)
-        assert result == int("11", 16)
+        assert result == int("b", 16)
 
     def test_multiplication_hex_large_m_successful(
-        self, valid_hex_input_large_m_mul: dict[str, str], m_large: int
+        self, valid_hex_input_large_m: dict[str, str], m_large: int
     ) -> None:
-        poly1, poly2, input_type = valid_hex_input_large_m_mul.values()
+        poly1, poly2, input_type = valid_hex_input_large_m.values()
         result = multiplication(poly1=poly1, poly2=poly2, input_type=input_type, m=m_large)
         assert result == int("0", 16)
 

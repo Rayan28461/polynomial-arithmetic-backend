@@ -2,7 +2,7 @@ import galois
 
 
 def multiplication(
-    poly1: str, poly2: str, input_type: str, m: int = 571
+    poly1: str, poly2: str, input_type: str, m: int = 163
 ) -> galois.FieldArray:
     """
     Multiplies two polynomials in any Galois field.

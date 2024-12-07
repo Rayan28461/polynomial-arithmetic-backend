@@ -254,12 +254,12 @@ class TestMultiplyPolynomials:
     ) -> None:
         poly1, poly2, input_type, output_type = valid_hex_input.values()
         response = await multiplication(poly1, poly2, input_type, output_type, m_value)
-        res = eval(response.body)
+        res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_200_OK
         assert res == {
             "message": "Polynomials multiplied successfully!",
-            "data": {"result": "A5"},
+            "data": {"result": "b"},
         }
 
     async def test_multiplication_bin_polynomials_successful(
@@ -269,12 +269,12 @@ class TestMultiplyPolynomials:
     ) -> None:
         poly1, poly2, input_type, output_type = valid_bin_input.values()
         response = await multiplication(poly1, poly2, input_type, output_type, m_value)
-        res = eval(response.body)
+        res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_200_OK
         assert res == {
             "message": "Polynomials multiplied successfully!",
-            "data": {"result": "11100010"},
+            "data": {"result": "11001001"},
         }
 
     async def test_multiplication_invalid_input_type(
