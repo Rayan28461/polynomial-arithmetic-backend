@@ -1,6 +1,5 @@
 import galois
 
-
 def subtraction(
     poly1: str, poly2: str, inputType: str, m: int = 163
 ) -> galois.FieldArray:
