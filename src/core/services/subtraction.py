@@ -1,6 +1,6 @@
 import galois
 
-def sub(poly1: str, poly2: str, inputType: str, m: int = 163) -> galois.FieldArray:
+def subtraction(poly1: str, poly2: str, inputType: str, m: int = 163) -> galois.FieldArray:
     """
     Subtracts 2 polynomials in a Galois Field GF(2^m).
 
