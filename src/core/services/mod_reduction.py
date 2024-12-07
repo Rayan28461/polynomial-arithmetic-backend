@@ -91,6 +91,9 @@ def modReduction(
         else:  # If the input is not in binary or decimal
             raise ValueError("Invalid input type!")
 
+        if fieldPoly2 == 0:
+            return gf(fieldPoly1)
+
         resultInt = fieldPoly1
         modDegree = fieldPoly2.bit_length() - 1  # Degree of the modulus polynomial
 
@@ -125,6 +128,9 @@ def gf2Mod(poly: str, mod: str, inputType: str, m: int) -> str:
         polyInt = int(poly, 16)
         modInt = int(mod, 16)
     modDegree = modInt.bit_length() - 1  # Degree of the modulus polynomial
+
+    if modInt == 0:
+        return poly
 
     while polyInt.bit_length() - 1 >= modDegree:
         degreeDiff = polyInt.bit_length() - modDegree - 1  # Degree difference

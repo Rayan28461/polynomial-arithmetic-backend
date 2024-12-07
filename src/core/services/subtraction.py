@@ -1,6 +1,9 @@
 import galois
 
-def subtraction(poly1: str, poly2: str, inputType: str, m: int = 163) -> galois.FieldArray:
+
+def subtraction(
+    poly1: str, poly2: str, inputType: str, m: int = 163
+) -> galois.FieldArray:
     """
     Subtracts 2 polynomials in a Galois Field GF(2^m).
 
@@ -118,6 +121,9 @@ def gf2Mod(poly: str, mod: str, inputType: str, m: int) -> str:
         polyInt = int(poly, 16)
         modInt = int(mod, 16)
     modDegree = modInt.bit_length() - 1  # Degree of the modulus polynomial
+
+    if modInt == 0:
+        return poly
 
     while polyInt.bit_length() - 1 >= modDegree:
         degreeDiff = polyInt.bit_length() - modDegree - 1  # Degree difference
