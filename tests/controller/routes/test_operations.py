@@ -243,8 +243,10 @@ class TestDividePolynomials:
         }
 
 
-#Multiplicatoin 
-from src.controller.routes.operations import multiplication
+# Multiplicatoin
+from src.controller.routes.operations import multiplication as multiply
+
+
 @pytest.mark.asyncio
 class TestMultiplyPolynomials:
     async def test_multiplication_hex_polynomials_successful(
@@ -253,13 +255,13 @@ class TestMultiplyPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = valid_hex_input.values()
-        response = await multiplication(poly1, poly2, input_type, output_type, m_value)
+        response = await multiply(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_200_OK
         assert res == {
             "message": "Polynomials multiplied successfully!",
-            "data": {"result": "b"},
+            "data": {"result": "0b"},
         }
 
     async def test_multiplication_bin_polynomials_successful(
@@ -268,7 +270,7 @@ class TestMultiplyPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = valid_bin_input.values()
-        response = await multiplication(poly1, poly2, input_type, output_type, m_value)
+        response = await multiply(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_200_OK
@@ -283,7 +285,7 @@ class TestMultiplyPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = invalid_input_type.values()
-        response = await multiplication(poly1, poly2, input_type, output_type, m_value)
+        response = await multiply(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -298,7 +300,7 @@ class TestMultiplyPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = invalid_output_type.values()
-        response = await multiplication(poly1, poly2, input_type, output_type, m_value)
+        response = await multiply(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -313,7 +315,7 @@ class TestMultiplyPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = invalid_hex_input.values()
-        response = await multiplication(poly1, poly2, input_type, output_type, m_value)
+        response = await multiply(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
@@ -328,7 +330,7 @@ class TestMultiplyPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = invalid_bin_input.values()
-        response = await multiplication(poly1, poly2, input_type, output_type, m_value)
+        response = await multiply(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
@@ -343,7 +345,7 @@ class TestMultiplyPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = input_outside_field.values()
-        response = await multiplication(poly1, poly2, input_type, output_type, m_value)
+        response = await multiply(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
