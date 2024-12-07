@@ -242,6 +242,7 @@ class TestDividePolynomials:
             "data": {"result": None},
         }
 
+
 # Subtraction
 from src.controller.routes.operations import sub
 
