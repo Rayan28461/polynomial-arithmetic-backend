@@ -1,7 +1,5 @@
 import galois
 
-from src.core.services.mod_reduction import gf2Mod
-
 
 def subtraction(
     poly1: str, poly2: str, inputType: str, m: int = 163
@@ -102,3 +100,39 @@ def subtraction(
 
     except ValueError as e:
         raise ValueError(e)
+
+
+def gf2Mod(poly: str, mod: str, inputType: str, m: int) -> str:
+    """
+    Perform modulo reduction of a polynomial over GF(2^m) with the irreducible polynomial.
+
+    Arguments:
+    poly: Polynomial in binary or hexadecimal representation.
+    mod: Irreducible polynomial in binary or hexadecimal representation.
+    inputType: Original input type in order to return correct type for the modReduction function.
+    m: Degree of the polynomial field set.
+
+    Returns: Either a binary or hexadecimal representation of the remainder polynomial.
+    """
+    if inputType == "binary":
+        polyInt = int(poly, 2)
+        modInt = int(mod, 2)
+    elif inputType == "hexadecimal":
+        polyInt = int(poly, 16)
+        modInt = int(mod, 16)
+    modDegree = modInt.bit_length() - 1  # Degree of the modulus polynomial
+
+    while polyInt.bit_length() - 1 >= modDegree:
+        degreeDiff = polyInt.bit_length() - modDegree - 1  # Degree difference
+        polyInt ^= (
+            modInt << degreeDiff
+        )  # XOR the mod shifted to align with poly's leading term
+    if inputType == "binary":  # Convert result into binary
+        poly = bin(polyInt)[2:].zfill(
+            m
+        )  # Binary string padded to m bits and removing the prefix
+    elif inputType == "hexadecimal":  # Convert result into hexadecimal
+        poly = (
+            hex(polyInt)[2:].upper().zfill(m // 4)
+        )  # Hex string padded to m/4 characters and removing the prefix
+    return poly  # return the result
