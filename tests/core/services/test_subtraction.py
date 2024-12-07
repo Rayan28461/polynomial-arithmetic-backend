@@ -1,6 +1,6 @@
 import pytest
 
-from src.core.services.addition import sub
+from src.core.services.subtraction import sub
 
 
 class TestSub:
