@@ -336,3 +336,67 @@ async def multiplication(
             message=str(e),
             data={"result": None},
         )
+
+
+@services_router.post(
+    "/inverse", response_class=APIResponse, response_model=APIResponseModel
+)
+async def inverse(
+    poly: Union[HexStr, BinStr],
+    input_type: str,
+    output_type: str,
+    m: int = 163,
+) -> APIResponse:
+    """
+    Endpoint to calculate the inverse of a polynomial in GF(2^m).
+
+    Args:
+        poly (Union[HexStr, BinStr]): The polynomial in either hexadecimal or binary format.
+        input_type (str): The format of the input polynomial ('binary' or 'hexadecimal').
+        output_type (str): The desired format of the output polynomial ('binary' or 'hexadecimal').
+        m (int, optional): The degree of the polynomial field. Defaults to 163.
+
+    Returns:
+        APIResponse: An API response object containing the result of the inverse operation and status code.
+    """
+    try:
+        if input_type not in ["binary", "hexadecimal"]:
+            return APIResponse(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                message="Invalid input type.\nPlease provide either 'binary' or 'hexadecimal'.",
+                data={"result": None},
+            )
+        if output_type not in ["binary", "hexadecimal"]:
+            return APIResponse(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                message="Invalid output type.\nPlease provide either 'binary' or 'hexadecimal'.",
+                data={"result": None},
+            )
+
+        # Assuming the inverse function exists and is imported
+        poly_inverse = modReduction(poly, '1', input_type, m)  # Example using modReduction
+        result = None
+
+        if output_type == "binary":
+            result = format(poly_inverse, f"0{m}b")
+        elif output_type == "hexadecimal":
+            result = format(poly_inverse, f"0{m//4}x")
+
+        return APIResponse(
+            message="Polynomial inverse calculated successfully!",
+            status_code=status.HTTP_200_OK,
+            data={"result": result},
+        )
+
+    except ValueError as e:
+        return APIResponse(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            message=str(e),
+            data={"result": None},
+        )
+    except Exception as e:
+        return APIResponse(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            message=str(e),
+            data={"result": None},
+        )
