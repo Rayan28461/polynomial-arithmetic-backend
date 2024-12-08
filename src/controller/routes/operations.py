@@ -7,9 +7,8 @@ from src.common.responses import APIResponse, APIResponseModel
 from src.common.utils.types import BinStr, HexStr
 from src.core.services.addition import add
 from src.core.services.division import divide
-from src.core.services.subtraction import subtraction
 from src.core.services.mod_reduction import modReduction
-
+from src.core.services.subtraction import subtraction
 
 services_router = APIRouter(prefix="/operations", tags=["Arithmetic Operations"])
 

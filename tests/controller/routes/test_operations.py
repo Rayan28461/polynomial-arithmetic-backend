@@ -3,11 +3,7 @@ import json
 import pytest
 from fastapi import status
 
-from src.controller.routes.operations import addition
-from src.controller.routes.operations import division
-from src.controller.routes.operations import sub
-from src.controller.routes.operations import mod_reduction
-
+from src.controller.routes.operations import addition, division, mod_reduction, sub
 
 
 @pytest.mark.asyncio
