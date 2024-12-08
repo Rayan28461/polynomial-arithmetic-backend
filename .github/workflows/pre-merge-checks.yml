@@ -8,6 +8,7 @@ on:
 
 jobs:
   pre-merge-checks:
+    permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -42,4 +43,4 @@ jobs:
           /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/requested_reviewers \
           -f "reviewers[]=Rayan28461" \
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

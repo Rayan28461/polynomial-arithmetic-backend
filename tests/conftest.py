@@ -17,7 +17,9 @@ from .fixtures.core.services.operations import (
     m_large,
     m_small,
     valid_binary_input_large_m,
+    valid_binary_input_large_m_div,
     valid_binary_input_small_m,
     valid_hex_input_large_m,
+    valid_hex_input_large_m_div,
     valid_hex_input_small_m,
 )
