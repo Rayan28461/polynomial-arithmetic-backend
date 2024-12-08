@@ -3,7 +3,13 @@ import json
 import pytest
 from fastapi import status
 
-from src.controller.routes.operations import addition, division, mod_reduction, sub, multiplication
+from src.controller.routes.operations import (
+    addition,
+    division,
+    mod_reduction,
+    multiplication,
+    sub,
+)
 
 
 @pytest.mark.asyncio
@@ -468,7 +474,7 @@ class TestMultiplyPolynomials:
         assert response.status_code == status.HTTP_200_OK
         assert res == {
             "message": "Polynomials multiplied successfully!",
-            "data": {"result": "b"},
+            "data": {"result": "0b"},
         }
 
     async def test_multiplication_bin_polynomials_successful(

@@ -8,8 +8,8 @@ from src.common.utils.types import BinStr, HexStr
 from src.core.services.addition import add
 from src.core.services.division import divide
 from src.core.services.mod_reduction import modReduction
+from src.core.services.multiplication import multiplication as multiply
 from src.core.services.subtraction import subtraction
-from src.core.services.multiplication import multiplication
 
 services_router = APIRouter(prefix="/operations", tags=["Arithmetic Operations"])
 
@@ -302,17 +302,17 @@ async def multiplication(
                 message="Invalid input type.\nPlease provide either 'binary' or 'hexadecimal'.",
                 data={"result": None},
             )
-        
+
         if output_type not in ["binary", "hexadecimal"]:
             return APIResponse(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 message="Invalid output type.\nPlease provide either 'binary' or 'hexadecimal'.",
                 data={"result": None},
             )
-        
-        poly_product = multiplication(poly1, poly2, input_type, m)
-        result = None 
-        
+
+        poly_product = multiply(poly1, poly2, input_type, m)
+        result = None
+
         if output_type == "binary":
             result = format(poly_product, f"0{m}b")
         elif output_type == "hexadecimal":
