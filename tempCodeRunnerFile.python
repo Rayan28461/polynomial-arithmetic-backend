@@ -2,7 +2,7 @@ import galois
 
 
 def multiplication(
-    poly1: str, poly2: str, input_type: str, m: int = 163
+    poly1: str, poly2: str, input_type: str, m: int = 256
 ) -> galois.FieldArray:
     """
     Multiplies two polynomials in any Galois field.
@@ -33,3 +33,7 @@ def multiplication(
         return field_poly1 * field_poly2
     except ValueError as e:
         raise ValueError(e)
+poly1="1" * 256
+poly2= "0" * 256
+result = multiplication(poly1, poly2, input_type="binary")
+print(result) 

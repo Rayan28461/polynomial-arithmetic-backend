@@ -9,6 +9,7 @@ from src.core.services.addition import add
 from src.core.services.division import divide
 from src.core.services.mod_reduction import modReduction
 from src.core.services.subtraction import subtraction
+from src.core.services.multiplication import multiplication
 
 services_router = APIRouter(prefix="/operations", tags=["Arithmetic Operations"])
 
@@ -257,6 +258,72 @@ async def mod_reduction(
             status_code=status.HTTP_200_OK,
             data={"result": result},
         )
+    except ValueError as e:
+        return APIResponse(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            message=str(e),
+            data={"result": None},
+        )
+    except Exception as e:
+        return APIResponse(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            message=str(e),
+            data={"result": None},
+        )
+
+
+@services_router.post(
+    "/multiplication", response_class=APIResponse, response_model=APIResponseModel
+)
+async def multiplication(
+    poly1: Union[HexStr, BinStr],
+    poly2: Union[HexStr, BinStr],
+    input_type: str,
+    output_type: str,
+    m: int = 163,
+) -> APIResponse:
+    """
+    Endpoint to perform multiplication of two polynomials over GF(2^m).
+
+    Args:
+        poly1 (Union[HexStr, BinStr]): The first polynomial in either hexadecimal or binary format.
+        poly2 (Union[HexStr, BinStr]): The second polynomial in either hexadecimal or binary format.
+        input_type (str): The format of the input polynomials ('binary' or 'hexadecimal').
+        output_type (str): The desired format of the output polynomial ('binary' or 'hexadecimal').
+        m (int, optional): The degree of the polynomial field. Defaults to 163.
+
+    Returns:
+        APIResponse: An API response object containing the result of the multiplication and status code.
+    """
+    try:
+        if input_type not in ["binary", "hexadecimal"]:
+            return APIResponse(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                message="Invalid input type.\nPlease provide either 'binary' or 'hexadecimal'.",
+                data={"result": None},
+            )
+        
+        if output_type not in ["binary", "hexadecimal"]:
+            return APIResponse(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                message="Invalid output type.\nPlease provide either 'binary' or 'hexadecimal'.",
+                data={"result": None},
+            )
+        
+        poly_product = multiplication(poly1, poly2, input_type, m)
+        result = None 
+        
+        if output_type == "binary":
+            result = format(poly_product, f"0{m}b")
+        elif output_type == "hexadecimal":
+            result = format(poly_product, f"0{m//4}x")
+
+        return APIResponse(
+            message="Polynomials multiplied successfully!",
+            status_code=status.HTTP_200_OK,
+            data={"result": result},
+        )
+
     except ValueError as e:
         return APIResponse(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
