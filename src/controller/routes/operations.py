@@ -10,6 +10,7 @@ from src.core.services.division import divide
 from src.core.services.mod_reduction import modReduction
 from src.core.services.multiplication import multiplication as multiply
 from src.core.services.subtraction import subtraction
+from src.core.services.inverse import inverse
 
 services_router = APIRouter(prefix="/operations", tags=["Arithmetic Operations"])
 
@@ -374,7 +375,7 @@ async def inverse(
             )
 
         # Assuming the inverse function exists and is imported
-        poly_inverse = modReduction(
+        poly_inverse = inverse(
             poly, "1", input_type, m
         )  # Example using modReduction
         result = None
