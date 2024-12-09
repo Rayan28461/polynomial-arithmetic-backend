@@ -6,10 +6,10 @@ from fastapi import status
 from src.controller.routes.operations import (
     addition,
     division,
+    inverse,
     mod_reduction,
     multiplication,
     sub,
-    inverse
 )
 
 
@@ -569,8 +569,6 @@ class TestMultiplyPolynomials:
         }
 
 
-
-
 @pytest.mark.asyncio
 class TestInversePolynomials:
     async def test_inverse_hex_polynomials_successful(
@@ -585,7 +583,7 @@ class TestInversePolynomials:
         assert response.status_code == status.HTTP_200_OK
         assert res == {
             "message": "Polynomial inverse calculated successfully!",
-            "data": {"result": "2d"}  
+            "data": {"result": "2d"},
         }
 
     async def test_inverse_bin_polynomials_successful(
@@ -600,7 +598,7 @@ class TestInversePolynomials:
         assert response.status_code == status.HTTP_200_OK
         assert res == {
             "message": "Polynomial inverse calculated successfully!",
-            "data": {"result": "10111011"}  
+            "data": {"result": "10111011"},
         }
 
     async def test_inverse_invalid_input_type(
@@ -644,7 +642,7 @@ class TestInversePolynomials:
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
         assert res == {
-            "message": "invalid literal for int() with base 16: '1G3H'",  
+            "message": "invalid literal for int() with base 16: '1G3H'",
             "data": {"result": None},
         }
 
@@ -659,7 +657,7 @@ class TestInversePolynomials:
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
         assert res == {
-            "message": "invalid literal for int() with base 2: '10101112'",  
+            "message": "invalid literal for int() with base 2: '10101112'",
             "data": {"result": None},
         }
 
@@ -674,6 +672,6 @@ class TestInversePolynomials:
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
         assert res == {
-            "message": "GF(2^8) scalars must be in `0 <= x < 256`, not 4081.", 
+            "message": "GF(2^8) scalars must be in `0 <= x < 256`, not 4081.",
             "data": {"result": None},
         }
