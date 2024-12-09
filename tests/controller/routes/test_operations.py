@@ -821,14 +821,14 @@ class TestInversePolynomials:
         valid_hex_input: dict[str, str],
         m_value: int,
     ) -> None:
-        poly, input_type, output_type = valid_hex_input.values()
-        response = await inverse(poly, input_type, output_type, m_value)
+        poly1, poly2, input_type, output_type = valid_hex_input.values()
+        response = await inverse(poly1, input_type, output_type, m_value)
         res = eval(response.body)
 
         assert response.status_code == status.HTTP_200_OK
         assert res == {
             "message": "Polynomial inverse calculated successfully!",
-            "data": {"result": "2d"},
+            "data": {"result": "00"},
         }
 
     async def test_inverse_bin_polynomials_successful(
@@ -836,14 +836,14 @@ class TestInversePolynomials:
         valid_bin_input: dict[str, str],
         m_value: int,
     ) -> None:
-        poly, input_type, output_type = valid_bin_input.values()
-        response = await inverse(poly, input_type, output_type, m_value)
+        poly1, poly2, input_type, output_type = valid_bin_input.values()
+        response = await inverse(poly1, input_type, output_type, m_value)
         res = eval(response.body)
 
         assert response.status_code == status.HTTP_200_OK
         assert res == {
             "message": "Polynomial inverse calculated successfully!",
-            "data": {"result": "10111011"},
+            "data": {"result": "00000000"},
         }
 
     async def test_inverse_invalid_input_type(
@@ -851,8 +851,8 @@ class TestInversePolynomials:
         invalid_input_type: dict[str, str],
         m_value: int,
     ) -> None:
-        poly, input_type, output_type = invalid_input_type.values()
-        response = await inverse(poly, input_type, output_type, m_value)
+        poly1, poly2, input_type, output_type = invalid_input_type.values()
+        response = await inverse(poly1, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -866,8 +866,8 @@ class TestInversePolynomials:
         invalid_output_type: dict[str, str],
         m_value: int,
     ) -> None:
-        poly, input_type, output_type = invalid_output_type.values()
-        response = await inverse(poly, input_type, output_type, m_value)
+        poly1, poly2, input_type, output_type = invalid_output_type.values()
+        response = await inverse(poly1, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -881,8 +881,8 @@ class TestInversePolynomials:
         invalid_hex_input: dict[str, str],
         m_value: int,
     ) -> None:
-        poly, input_type, output_type = invalid_hex_input.values()
-        response = await inverse(poly, input_type, output_type, m_value)
+        poly1, poly2, input_type, output_type = invalid_hex_input.values()
+        response = await inverse(poly1, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
@@ -896,8 +896,8 @@ class TestInversePolynomials:
         invalid_bin_input: dict[str, str],
         m_value: int,
     ) -> None:
-        poly, input_type, output_type = invalid_bin_input.values()
-        response = await inverse(poly, input_type, output_type, m_value)
+        poly1, poly2, input_type, output_type = invalid_bin_input.values()
+        response = await inverse(poly1, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
@@ -911,8 +911,8 @@ class TestInversePolynomials:
         input_outside_field: dict[str, str],
         m_value: int,
     ) -> None:
-        poly, input_type, output_type = input_outside_field.values()
-        response = await inverse(poly, input_type, output_type, m_value)
+        poly1, poly2, input_type, output_type = input_outside_field.values()
+        response = await inverse(poly1, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
