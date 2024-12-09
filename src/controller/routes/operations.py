@@ -386,7 +386,9 @@ async def inverse(
             )
 
         # Assuming the inverse function exists and is imported
-        poly_inverse = modReduction(poly, '1', input_type, m)  # Example using modReduction
+        poly_inverse = modReduction(
+            poly, "1", input_type, m
+        )  # Example using modReduction
         result = None
 
         if output_type == "binary":
