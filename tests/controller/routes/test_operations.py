@@ -12,6 +12,7 @@ from src.controller.routes.operations import (
 )
 from src.controller.schemas.operationRequest import OperationRequest
 
+
 @pytest.mark.asyncio
 class TestAddPolynomials:
     async def test_addition_hex_polynomials_successful(
@@ -25,7 +26,7 @@ class TestAddPolynomials:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await addition(request)
         res = json.loads(response.body)
@@ -47,7 +48,7 @@ class TestAddPolynomials:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await addition(request)
         res = json.loads(response.body)
@@ -69,7 +70,7 @@ class TestAddPolynomials:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await addition(request)
         res = json.loads(response.body)
@@ -91,7 +92,7 @@ class TestAddPolynomials:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await addition(request)
         res = json.loads(response.body)
@@ -113,7 +114,7 @@ class TestAddPolynomials:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await addition(request)
         res = json.loads(response.body)
@@ -135,7 +136,7 @@ class TestAddPolynomials:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await addition(request)
         res = json.loads(response.body)
@@ -157,7 +158,7 @@ class TestAddPolynomials:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await addition(request)
         res = json.loads(response.body)
@@ -181,7 +182,7 @@ class TestDividePolynomials:
             poly2=valid_hex_input["poly2"],
             input_type=valid_hex_input["input_type"],
             output_type=valid_hex_input["output_type"],
-            m=m_value
+            m=m_value,
         )
         response = await division(request=request)
         res = eval(response.body)
@@ -202,7 +203,7 @@ class TestDividePolynomials:
             poly2=valid_bin_input["poly2"],
             input_type=valid_bin_input["input_type"],
             output_type=valid_bin_input["output_type"],
-            m=m_value
+            m=m_value,
         )
         response = await division(request=request)
         res = eval(response.body)
@@ -223,7 +224,7 @@ class TestDividePolynomials:
             poly2=invalid_input_type["poly2"],
             input_type=invalid_input_type["input_type"],
             output_type=invalid_input_type["output_type"],
-            m=m_value
+            m=m_value,
         )
         response = await division(request=request)
         res = json.loads(response.body)
@@ -244,7 +245,7 @@ class TestDividePolynomials:
             poly2=invalid_output_type["poly2"],
             input_type=invalid_output_type["input_type"],
             output_type=invalid_output_type["output_type"],
-            m=m_value
+            m=m_value,
         )
         response = await division(request=request)
         res = json.loads(response.body)
@@ -265,7 +266,7 @@ class TestDividePolynomials:
             poly2=invalid_hex_input["poly2"],
             input_type=invalid_hex_input["input_type"],
             output_type=invalid_hex_input["output_type"],
-            m=m_value
+            m=m_value,
         )
         response = await division(request=request)
         res = json.loads(response.body)
@@ -286,7 +287,7 @@ class TestDividePolynomials:
             poly2=invalid_bin_input["poly2"],
             input_type=invalid_bin_input["input_type"],
             output_type=invalid_bin_input["output_type"],
-            m=m_value
+            m=m_value,
         )
         response = await division(request=request)
         res = json.loads(response.body)
@@ -307,9 +308,9 @@ class TestDividePolynomials:
             poly2=valid_bin_input["poly2"],
             input_type=valid_bin_input["input_type"],
             output_type=valid_bin_input["output_type"],
-            m=m_value
+            m=m_value,
         )
-        request.poly2 = "0"*len(request.poly2)
+        request.poly2 = "0" * len(request.poly2)
         response = await division(request=request)
         res = json.loads(response.body)
 
@@ -329,7 +330,7 @@ class TestDividePolynomials:
             poly2=input_outside_field["poly2"],
             input_type=input_outside_field["input_type"],
             output_type=input_outside_field["output_type"],
-            m=m_value
+            m=m_value,
         )
         response = await division(request=request)
         res = json.loads(response.body)
@@ -354,7 +355,7 @@ class TestSubtractPolynomials:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await sub(request)
         res = json.loads(response.body)
@@ -376,7 +377,7 @@ class TestSubtractPolynomials:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await sub(request)
         res = json.loads(response.body)
@@ -398,7 +399,7 @@ class TestSubtractPolynomials:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await sub(request)
         res = json.loads(response.body)
@@ -420,7 +421,7 @@ class TestSubtractPolynomials:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await sub(request)
         res = json.loads(response.body)
@@ -442,7 +443,7 @@ class TestSubtractPolynomials:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await sub(request)
         res = json.loads(response.body)
@@ -464,7 +465,7 @@ class TestSubtractPolynomials:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await sub(request)
         res = json.loads(response.body)
@@ -486,7 +487,7 @@ class TestSubtractPolynomials:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await sub(request)
         res = json.loads(response.body)
@@ -496,6 +497,7 @@ class TestSubtractPolynomials:
             "message": "GF(2^8) scalars must be in `0 <= x < 256`, not 4081.",
             "data": {"result": None},
         }
+
 
 @pytest.mark.asyncio
 class TestModuloReduction:
@@ -510,7 +512,7 @@ class TestModuloReduction:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await mod_reduction(request)
         res = json.loads(response.body)
@@ -532,7 +534,7 @@ class TestModuloReduction:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await mod_reduction(request)
         res = json.loads(response.body)
@@ -554,7 +556,7 @@ class TestModuloReduction:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await mod_reduction(request)
         res = json.loads(response.body)
@@ -576,7 +578,7 @@ class TestModuloReduction:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await mod_reduction(request)
         res = json.loads(response.body)
@@ -598,7 +600,7 @@ class TestModuloReduction:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await mod_reduction(request)
         res = json.loads(response.body)
@@ -620,7 +622,7 @@ class TestModuloReduction:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await mod_reduction(request)
         res = json.loads(response.body)
@@ -642,7 +644,7 @@ class TestModuloReduction:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await mod_reduction(request)
         res = json.loads(response.body)
@@ -667,7 +669,7 @@ class TestMultiplyPolynomials:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await multiplication(request)
         res = json.loads(response.body)
@@ -689,7 +691,7 @@ class TestMultiplyPolynomials:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await multiplication(request)
         res = json.loads(response.body)
@@ -711,7 +713,7 @@ class TestMultiplyPolynomials:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await multiplication(request)
         res = json.loads(response.body)
@@ -733,7 +735,7 @@ class TestMultiplyPolynomials:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await multiplication(request)
         res = json.loads(response.body)
@@ -755,7 +757,7 @@ class TestMultiplyPolynomials:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await multiplication(request)
         res = json.loads(response.body)
@@ -777,7 +779,7 @@ class TestMultiplyPolynomials:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await multiplication(request)
         res = json.loads(response.body)
@@ -799,7 +801,7 @@ class TestMultiplyPolynomials:
             poly2=poly2,
             input_type=input_type,
             output_type=output_type,
-            m=m_value
+            m=m_value,
         )
         response = await multiplication(request)
         res = json.loads(response.body)

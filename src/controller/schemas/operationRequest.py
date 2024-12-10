@@ -1,8 +1,4 @@
-from typing import Union
-
 from pydantic import BaseModel, Field
-
-from src.common.utils.types import BinStr, HexStr
 
 
 class OperationRequest(BaseModel):
