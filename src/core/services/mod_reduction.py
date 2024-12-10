@@ -41,7 +41,7 @@ def modReduction(
             raise ValueError("Invalid input type")
 
         if fieldPolyInt2 == 0:
-            return gf(fieldPolyInt1)
+            raise ValueError("Division by 0 not allowed!")
 
         resultInt = fieldPolyInt1
         modDegree = fieldPolyInt2.bit_length() - 1  # Degree of the modulus polynomial
