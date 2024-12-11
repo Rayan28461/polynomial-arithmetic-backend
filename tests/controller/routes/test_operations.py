@@ -6,10 +6,10 @@ from fastapi import status
 from src.controller.routes.operations import (
     addition,
     division,
+    inverse_operation,
     mod_reduction,
     multiplication,
     sub,
-    inverse_operation
 )
 
 
@@ -568,6 +568,7 @@ class TestMultiplyPolynomials:
             "data": {"result": None},
         }
 
+
 @pytest.mark.asyncio
 class TestInversePolynomials:
     async def test_inverse_hex_polynomial_successful(
@@ -577,7 +578,7 @@ class TestInversePolynomials:
     ) -> None:
         poly, _, input_type, output_type = valid_hex_input.values()
         response = await inverse_operation(poly, input_type, output_type, m_value)
-        res = json.loads(response.body)
+        json.loads(response.body)
 
         assert response.status_code == status.HTTP_200_OK
 
@@ -588,7 +589,7 @@ class TestInversePolynomials:
     ) -> None:
         poly, _, input_type, output_type = valid_bin_input.values()
         response = await inverse_operation(poly, input_type, output_type, m_value)
-        res = json.loads(response.body)
+        json.loads(response.body)
 
         assert response.status_code == status.HTTP_200_OK
         # Adjust assertions based on your logic

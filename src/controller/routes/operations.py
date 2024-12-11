@@ -7,11 +7,10 @@ from src.common.responses import APIResponse, APIResponseModel
 from src.common.utils.types import BinStr, HexStr
 from src.core.services.addition import add
 from src.core.services.division import divide
+from src.core.services.inverse import inverse as inverse_service
 from src.core.services.mod_reduction import modReduction
 from src.core.services.multiplication import multiplication as multiply
 from src.core.services.subtraction import subtraction
-from src.core.services.inverse import inverse
-from src.core.services.inverse import inverse as inverse_service
 
 services_router = APIRouter(prefix="/operations", tags=["Arithmetic Operations"])
 
@@ -338,9 +337,6 @@ async def multiplication(
             message=str(e),
             data={"result": None},
         )
-    
-
-
 
 
 @services_router.post(
@@ -350,10 +346,10 @@ async def inverse_operation(
     poly: Union[HexStr, BinStr],
     input_type: str,
     output_type: str,
-    m: int = 8, 
+    m: int = 8,
 ) -> APIResponse:
     try:
-       
+
         if input_type not in ["binary", "hexadecimal"]:
             return APIResponse(
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -366,7 +362,7 @@ async def inverse_operation(
                 message="Invalid output type.\nPlease provide either 'binary' or 'hexadecimal'.",
                 data={"result": None},
             )
-       
+
         inverse_result = inverse_service(poly=poly, input_type=input_type, m=m)
 
         if output_type == "binary":
@@ -375,9 +371,9 @@ async def inverse_operation(
             if input_type == "binary":
                 inverse_int = int(inverse_result, 2)
                 hex_len = (m + 3) // 4
-                result = hex(inverse_int)[2:].upper().rjust(hex_len, '0')
+                result = hex(inverse_int)[2:].upper().rjust(hex_len, "0")
             else:
-               
+
                 result = inverse_result
 
         return APIResponse(
@@ -386,14 +382,14 @@ async def inverse_operation(
             data={"result": result},
         )
     except ValueError as e:
-       
+
         return APIResponse(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             message=str(e),
             data={"result": None},
         )
     except Exception as e:
-       
+
         return APIResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             message=str(e),
