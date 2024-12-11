@@ -17,7 +17,6 @@ def inverse(poly: str, input_type: str, m: int = 163) -> galois.FieldArray:
         ValueError: If the input type is invalid, conversion fails, or the polynomial is zero.
     """
     gf = galois.GF(2**m)
-    print(gf.irreducible_poly)
     field_poly = None
 
     try:

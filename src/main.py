@@ -23,6 +23,11 @@ app.include_router(status_router)
 app.include_router(services_router)
 
 
+from fastapi import FastAPI
+
+app = FastAPI()
+
+
 @app.get("/", response_class=HTMLResponse)
 async def root() -> HTMLResponse:
     """

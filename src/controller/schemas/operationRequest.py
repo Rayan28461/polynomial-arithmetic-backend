@@ -8,6 +8,7 @@ class OperationRequest(BaseModel):
     output_type: str = Field("hexadecimal", description="Type of output data")
     m: int = Field(description="Modulus value for the operation")
 
+
 class InverseRequest(BaseModel):
     poly: str = Field(description="Polynomial")
     input_type: str = Field("hexadecimal", description="Type of input data")

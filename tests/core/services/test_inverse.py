@@ -7,7 +7,7 @@ class TestInverse:
     def test_inverse_binary_small_m_successful(
         self, valid_binary_input_small_m: dict[str, str], m_small: int
     ) -> None:
-        poly1, poly2,  input_type = valid_binary_input_small_m.values()
+        poly1, poly2, input_type = valid_binary_input_small_m.values()
         result = inverse(poly=poly1, input_type=input_type, m=m_small)
         assert result == 181
 

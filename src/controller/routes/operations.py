@@ -5,11 +5,10 @@ from src.common.responses import APIResponse, APIResponseModel
 from src.controller.schemas.operationRequest import InverseRequest, OperationRequest
 from src.core.services.addition import add
 from src.core.services.division import divide
+from src.core.services.inverse import inverse
 from src.core.services.mod_reduction import modReduction
 from src.core.services.multiplication import multiplication as multiply
 from src.core.services.subtraction import subtraction
-from src.core.services.inverse import inverse
-from src.core.services.inverse import inverse
 
 services_router = APIRouter(prefix="/operations", tags=["Arithmetic Operations"])
 
@@ -353,7 +352,7 @@ async def multiplication(
 
 
 @services_router.post(
-    "/find_inverse", response_class=APIResponse, response_model=APIResponseModel
+    "/inverse", response_class=APIResponse, response_model=APIResponseModel
 )
 async def find_inverse(
     request: InverseRequest,
@@ -389,9 +388,7 @@ async def find_inverse(
                 data={"result": None},
             )
 
-        poly_inverse = inverse(
-            poly, input_type, m
-        )
+        poly_inverse = inverse(poly, input_type, m)
         result = None
 
         if output_type == "binary":
