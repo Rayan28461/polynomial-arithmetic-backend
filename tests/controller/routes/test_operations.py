@@ -6,11 +6,11 @@ from fastapi import status
 from src.controller.routes.operations import (
     addition,
     division,
+    inverse_operation,
     mod_reduction,
     multiplication,
     sub,
 )
-from src.controller.schemas.operationRequest import OperationRequest
 
 
 @pytest.mark.asyncio
@@ -21,15 +21,8 @@ class TestAddPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = valid_hex_input.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await addition(request)
-        res = json.loads(response.body)
+        response = await addition(poly1, poly2, input_type, output_type, m_value)
+        res = eval(response.body)
 
         assert response.status_code == status.HTTP_200_OK
         assert res == {
@@ -43,15 +36,8 @@ class TestAddPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = valid_bin_input.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await addition(request)
-        res = json.loads(response.body)
+        response = await addition(poly1, poly2, input_type, output_type, m_value)
+        res = eval(response.body)
 
         assert response.status_code == status.HTTP_200_OK
         assert res == {
@@ -65,14 +51,7 @@ class TestAddPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = invalid_input_type.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await addition(request)
+        response = await addition(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -87,14 +66,7 @@ class TestAddPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = invalid_output_type.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await addition(request)
+        response = await addition(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -109,14 +81,7 @@ class TestAddPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = invalid_hex_input.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await addition(request)
+        response = await addition(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
@@ -131,14 +96,7 @@ class TestAddPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = invalid_bin_input.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await addition(request)
+        response = await addition(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
@@ -153,14 +111,7 @@ class TestAddPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = input_outside_field.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await addition(request)
+        response = await addition(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
@@ -177,14 +128,8 @@ class TestDividePolynomials:
         valid_hex_input: dict[str, str],
         m_value: int,
     ) -> None:
-        request = OperationRequest(
-            poly1=valid_hex_input["poly1"],
-            poly2=valid_hex_input["poly2"],
-            input_type=valid_hex_input["input_type"],
-            output_type=valid_hex_input["output_type"],
-            m=m_value,
-        )
-        response = await division(request=request)
+        poly1, poly2, input_type, output_type = valid_hex_input.values()
+        response = await division(poly1, poly2, input_type, output_type, m_value)
         res = eval(response.body)
 
         assert response.status_code == status.HTTP_200_OK
@@ -198,14 +143,8 @@ class TestDividePolynomials:
         valid_bin_input: dict[str, str],
         m_value: int,
     ) -> None:
-        request = OperationRequest(
-            poly1=valid_bin_input["poly1"],
-            poly2=valid_bin_input["poly2"],
-            input_type=valid_bin_input["input_type"],
-            output_type=valid_bin_input["output_type"],
-            m=m_value,
-        )
-        response = await division(request=request)
+        poly1, poly2, input_type, output_type = valid_bin_input.values()
+        response = await division(poly1, poly2, input_type, output_type, m_value)
         res = eval(response.body)
 
         assert response.status_code == status.HTTP_200_OK
@@ -219,14 +158,8 @@ class TestDividePolynomials:
         invalid_input_type: dict[str, str],
         m_value: int,
     ) -> None:
-        request = OperationRequest(
-            poly1=invalid_input_type["poly1"],
-            poly2=invalid_input_type["poly2"],
-            input_type=invalid_input_type["input_type"],
-            output_type=invalid_input_type["output_type"],
-            m=m_value,
-        )
-        response = await division(request=request)
+        poly1, poly2, input_type, output_type = invalid_input_type.values()
+        response = await division(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -240,14 +173,8 @@ class TestDividePolynomials:
         invalid_output_type: dict[str, str],
         m_value: int,
     ) -> None:
-        request = OperationRequest(
-            poly1=invalid_output_type["poly1"],
-            poly2=invalid_output_type["poly2"],
-            input_type=invalid_output_type["input_type"],
-            output_type=invalid_output_type["output_type"],
-            m=m_value,
-        )
-        response = await division(request=request)
+        poly1, poly2, input_type, output_type = invalid_output_type.values()
+        response = await division(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -261,14 +188,8 @@ class TestDividePolynomials:
         invalid_hex_input: dict[str, str],
         m_value: int,
     ) -> None:
-        request = OperationRequest(
-            poly1=invalid_hex_input["poly1"],
-            poly2=invalid_hex_input["poly2"],
-            input_type=invalid_hex_input["input_type"],
-            output_type=invalid_hex_input["output_type"],
-            m=m_value,
-        )
-        response = await division(request=request)
+        poly1, poly2, input_type, output_type = invalid_hex_input.values()
+        response = await division(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
@@ -282,14 +203,8 @@ class TestDividePolynomials:
         invalid_bin_input: dict[str, str],
         m_value: int,
     ) -> None:
-        request = OperationRequest(
-            poly1=invalid_bin_input["poly1"],
-            poly2=invalid_bin_input["poly2"],
-            input_type=invalid_bin_input["input_type"],
-            output_type=invalid_bin_input["output_type"],
-            m=m_value,
-        )
-        response = await division(request=request)
+        poly1, poly2, input_type, output_type = invalid_bin_input.values()
+        response = await division(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
@@ -303,15 +218,9 @@ class TestDividePolynomials:
         valid_bin_input: dict[str, str],
         m_value: int,
     ) -> None:
-        request = OperationRequest(
-            poly1=valid_bin_input["poly1"],
-            poly2=valid_bin_input["poly2"],
-            input_type=valid_bin_input["input_type"],
-            output_type=valid_bin_input["output_type"],
-            m=m_value,
-        )
-        request.poly2 = "0" * len(request.poly2)
-        response = await division(request=request)
+        poly1, poly2, input_type, output_type = valid_bin_input.values()
+        poly2 = "0" * len(poly2)  # Simulate division by zero
+        response = await division(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
@@ -325,14 +234,8 @@ class TestDividePolynomials:
         input_outside_field: dict[str, str],
         m_value: int,
     ) -> None:
-        request = OperationRequest(
-            poly1=input_outside_field["poly1"],
-            poly2=input_outside_field["poly2"],
-            input_type=input_outside_field["input_type"],
-            output_type=input_outside_field["output_type"],
-            m=m_value,
-        )
-        response = await division(request=request)
+        poly1, poly2, input_type, output_type = input_outside_field.values()
+        response = await division(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
@@ -350,15 +253,8 @@ class TestSubtractPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = valid_hex_input.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await sub(request)
-        res = json.loads(response.body)
+        response = await sub(poly1, poly2, input_type, output_type, m_value)
+        res = eval(response.body)
 
         assert response.status_code == status.HTTP_200_OK
         assert res == {
@@ -372,15 +268,8 @@ class TestSubtractPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = valid_bin_input.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await sub(request)
-        res = json.loads(response.body)
+        response = await sub(poly1, poly2, input_type, output_type, m_value)
+        res = eval(response.body)
 
         assert response.status_code == status.HTTP_200_OK
         assert res == {
@@ -394,14 +283,7 @@ class TestSubtractPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = invalid_input_type.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await sub(request)
+        response = await sub(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -416,14 +298,7 @@ class TestSubtractPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = invalid_output_type.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await sub(request)
+        response = await sub(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -438,14 +313,7 @@ class TestSubtractPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = invalid_hex_input.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await sub(request)
+        response = await sub(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
@@ -460,14 +328,7 @@ class TestSubtractPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = invalid_bin_input.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await sub(request)
+        response = await sub(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
@@ -482,14 +343,7 @@ class TestSubtractPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = input_outside_field.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await sub(request)
+        response = await sub(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
@@ -507,15 +361,8 @@ class TestModuloReduction:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = valid_hex_input.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await mod_reduction(request)
-        res = json.loads(response.body)
+        response = await mod_reduction(poly1, poly2, input_type, output_type, m_value)
+        res = eval(response.body)
 
         assert response.status_code == status.HTTP_200_OK
         assert res == {
@@ -529,15 +376,8 @@ class TestModuloReduction:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = valid_bin_input.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await mod_reduction(request)
-        res = json.loads(response.body)
+        response = await mod_reduction(poly1, poly2, input_type, output_type, m_value)
+        res = eval(response.body)
 
         assert response.status_code == status.HTTP_200_OK
         assert res == {
@@ -551,14 +391,7 @@ class TestModuloReduction:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = invalid_input_type.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await mod_reduction(request)
+        response = await mod_reduction(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -573,14 +406,7 @@ class TestModuloReduction:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = invalid_output_type.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await mod_reduction(request)
+        response = await mod_reduction(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -595,14 +421,7 @@ class TestModuloReduction:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = invalid_hex_input.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await mod_reduction(request)
+        response = await mod_reduction(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
@@ -617,14 +436,7 @@ class TestModuloReduction:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = invalid_bin_input.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await mod_reduction(request)
+        response = await mod_reduction(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
@@ -633,20 +445,13 @@ class TestModuloReduction:
             "data": {"result": None},
         }
 
-    async def test_mod_reduction_out_of_field_error(
+    async def test_mod_reduction_error(
         self,
         input_outside_field: dict[str, str],
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = input_outside_field.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await mod_reduction(request)
+        response = await mod_reduction(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
@@ -664,14 +469,7 @@ class TestMultiplyPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = valid_hex_input.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await multiplication(request)
+        response = await multiplication(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_200_OK
@@ -686,14 +484,7 @@ class TestMultiplyPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = valid_bin_input.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await multiplication(request)
+        response = await multiplication(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_200_OK
@@ -708,14 +499,7 @@ class TestMultiplyPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = invalid_input_type.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await multiplication(request)
+        response = await multiplication(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -730,14 +514,7 @@ class TestMultiplyPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = invalid_output_type.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await multiplication(request)
+        response = await multiplication(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -752,14 +529,7 @@ class TestMultiplyPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = invalid_hex_input.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await multiplication(request)
+        response = await multiplication(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
@@ -774,14 +544,7 @@ class TestMultiplyPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = invalid_bin_input.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await multiplication(request)
+        response = await multiplication(poly1, poly2, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
@@ -796,14 +559,104 @@ class TestMultiplyPolynomials:
         m_value: int,
     ) -> None:
         poly1, poly2, input_type, output_type = input_outside_field.values()
-        request = OperationRequest(
-            poly1=poly1,
-            poly2=poly2,
-            input_type=input_type,
-            output_type=output_type,
-            m=m_value,
-        )
-        response = await multiplication(request)
+        response = await multiplication(poly1, poly2, input_type, output_type, m_value)
+        res = json.loads(response.body)
+
+        assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+        assert res == {
+            "message": "GF(2^8) scalars must be in `0 <= x < 256`, not 4081.",
+            "data": {"result": None},
+        }
+
+
+@pytest.mark.asyncio
+class TestInversePolynomials:
+    async def test_inverse_hex_polynomial_successful(
+        self,
+        valid_hex_input: dict[str, str],
+        m_value: int,
+    ) -> None:
+        poly, _, input_type, output_type = valid_hex_input.values()
+        response = await inverse_operation(poly, input_type, output_type, m_value)
+        json.loads(response.body)
+
+        assert response.status_code == status.HTTP_200_OK
+
+    async def test_inverse_bin_polynomial_successful(
+        self,
+        valid_bin_input: dict[str, str],
+        m_value: int,
+    ) -> None:
+        poly, _, input_type, output_type = valid_bin_input.values()
+        response = await inverse_operation(poly, input_type, output_type, m_value)
+        json.loads(response.body)
+
+        assert response.status_code == status.HTTP_200_OK
+        # Adjust assertions based on your logic
+
+    async def test_inverse_invalid_input_type(
+        self,
+        invalid_input_type: dict[str, str],
+        m_value: int,
+    ) -> None:
+        poly, _, input_type, output_type = invalid_input_type.values()
+        response = await inverse_operation(poly, input_type, output_type, m_value)
+        res = json.loads(response.body)
+
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert res == {
+            "message": "Invalid input type.\nPlease provide either 'binary' or 'hexadecimal'.",
+            "data": {"result": None},
+        }
+
+    async def test_inverse_invalid_output_type(
+        self,
+        invalid_output_type: dict[str, str],
+        m_value: int,
+    ) -> None:
+        poly, _, input_type, output_type = invalid_output_type.values()
+        response = await inverse_operation(poly, input_type, output_type, m_value)
+        res = json.loads(response.body)
+
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert res == {
+            "message": "Invalid output type.\nPlease provide either 'binary' or 'hexadecimal'.",
+            "data": {"result": None},
+        }
+
+    async def test_inverse_invalid_hex_polynomial(
+        self,
+        invalid_hex_input: dict[str, str],
+        m_value: int,
+    ) -> None:
+        poly, _, input_type, output_type = invalid_hex_input.values()
+        response = await inverse_operation(poly, input_type, output_type, m_value)
+        res = json.loads(response.body)
+
+        assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+        assert "invalid literal for int() with base 16" in res["message"]
+        assert res["data"] == {"result": None}
+
+    async def test_inverse_invalid_bin_polynomial(
+        self,
+        invalid_bin_input: dict[str, str],
+        m_value: int,
+    ) -> None:
+        poly, _, input_type, output_type = invalid_bin_input.values()
+        response = await inverse_operation(poly, input_type, output_type, m_value)
+        res = json.loads(response.body)
+
+        assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+        assert "invalid literal for int() with base 2" in res["message"]
+        assert res["data"] == {"result": None}
+
+    async def test_inverse_out_of_field_error(
+        self,
+        input_outside_field: dict[str, str],
+        m_value: int,
+    ) -> None:
+        poly, _, input_type, output_type = input_outside_field.values()
+        response = await inverse_operation(poly, input_type, output_type, m_value)
         res = json.loads(response.body)
 
         assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
