@@ -2,7 +2,7 @@ from fastapi import status
 from fastapi.routing import APIRouter
 
 from src.common.responses import APIResponse, APIResponseModel
-from src.controller.schemas.operationRequest import OperationRequest
+from src.controller.schemas.operationRequest import InverseRequest, OperationRequest
 from src.core.services.addition import add
 from src.core.services.division import divide
 from src.core.services.mod_reduction import modReduction
@@ -352,13 +352,10 @@ async def multiplication(
 
 
 @services_router.post(
-    "/inverse", response_class=APIResponse, response_model=APIResponseModel
+    "/find_inverse", response_class=APIResponse, response_model=APIResponseModel
 )
-async def inverse(
-    poly: Union[HexStr, BinStr],
-    input_type: str,
-    output_type: str,
-    m: int = 163,
+async def find_inverse(
+    request: InverseRequest,
 ) -> APIResponse:
     """
     Endpoint to calculate the inverse of a polynomial in GF(2^m).
@@ -373,6 +370,11 @@ async def inverse(
         APIResponse: An API response object containing the result of the inverse operation and status code.
     """
     try:
+        poly = request.poly
+        input_type = request.input_type
+        output_type = request.output_type
+        m = request.m
+
         if input_type not in ["binary", "hexadecimal"]:
             return APIResponse(
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -386,10 +388,9 @@ async def inverse(
                 data={"result": None},
             )
 
-        # Assuming the inverse function exists and is imported
         poly_inverse = inverse(
-            poly, "1", input_type, m
-        )  # Example using modReduction
+            poly, input_type, m
+        )
         result = None
 
         if output_type == "binary":
