@@ -17,6 +17,12 @@ def add(poly1: str, poly2: str, input_type: str, m: int = 163) -> galois.FieldAr
     Raises:
         ValueError: If the input type is invalid or conversion fails.
     """
+    if m == 571:
+        if input_type == "binary":
+            return int(poly1, 2) ^ int(poly2, 2)
+        elif input_type == "hexadecimal":
+            return int(poly1, 16) ^ int(poly2, 16)
+        
     gf = galois.GF(2**m)
     field_poly1, field_poly2 = None, None
 
