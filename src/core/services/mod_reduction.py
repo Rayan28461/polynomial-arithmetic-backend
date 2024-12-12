@@ -1,58 +1,64 @@
 import galois
 
-
 def modReduction(
     poly1: str, poly2: str, inputType: str, m: int = 163
-) -> galois.FieldArray:
+) -> int:
     """
-    Computes modulo reduction given 2 polynomials (poly1%poly2) in a Galois Field GF(2^m).
+    Computes modulo reduction given 2 polynomials (poly1 % poly2) in a Galois Field GF(2^m).
 
     Arguments:
     poly1: The first polynomial in binary or hexadecimal format.
-    poly2: The divisor in binary or hexadecimal format or the irreducible polynomial of a galois field.
+    poly2: The divisor in binary or hexadecimal format or the irreducible polynomial of a Galois field.
     inputType: The format of both input polynomials ('binary' or 'hexadecimal').
-    m(int,optional) : The degree of the polynomial field. Set to 163 if not specified.
+    m (int, optional): The degree of the polynomial field. Defaults to 163.
 
     Returns:
-    galois.FieldArray: The result of the modulo reduction in a the Galois Field
+    Integer.
 
     Raises:
     ValueError: If the input type is invalid or conversion fails.
     """
-
-    # Initialize the Galois Field
-    gf = galois.GF(2**m)
-    fieldPoly1 = None
-    fieldPoly2 = None
-
     try:
-        # Convert based on the input type to the integer representation
-        if inputType == "binary":  # If the input is in base 2
-            fieldPoly1 = gf(int(poly1, 2))
-            fieldPoly2 = gf(int(poly2, 2))
-            fieldPolyInt1 = int(poly1, 2)
-            fieldPolyInt2 = int(poly2, 2)
-        elif inputType == "hexadecimal":  # If the input is in base 16
-            fieldPoly1 = gf(int(poly1, 16))
-            fieldPoly2 = gf(int(poly2, 16))
-            fieldPolyInt1 = int(poly1, 16)
-            fieldPolyInt2 = int(poly2, 16)
-        if fieldPoly1 is None or fieldPoly2 is None:
-            raise ValueError("Invalid input type")
+        # Convert inputs based on the input type
+        if inputType == "binary":
+            poly1Int = int(poly1, 2)
+            poly2Int = int(poly2, 2)
+        elif inputType == "hexadecimal":
+            poly1Int = int(poly1, 16)
+            poly2Int = int(poly2, 16)
+        else:
+            raise ValueError("Invalid input type. Use 'binary' or 'hexadecimal'.")
 
-        if fieldPolyInt2 == 0:
-            raise ValueError("Division by 0 not allowed!")
+        # Ensure division by zero is handled
+        if poly2Int == 0:
+            raise ValueError("Division by zero is not allowed!")
 
-        resultInt = fieldPolyInt1
-        modDegree = fieldPolyInt2.bit_length() - 1  # Degree of the modulus polynomial
+        # For m = 571, handle manually without galois
+        if m == 571:
+            resultInt = poly1Int
+            modDegree = poly2Int.bit_length() - 1  # Degree of the modulus polynomial
 
-        while resultInt.bit_length() - 1 >= modDegree:
-            degreeDiff = resultInt.bit_length() - modDegree - 1  # Degree difference
-            resultInt ^= (
-                fieldPolyInt2 << degreeDiff
-            )  # XOR the mod shifted to align with poly's leading term
-        result = gf(resultInt)
-        return result
+            while resultInt.bit_length() - 1 >= modDegree:
+                degreeDiff = resultInt.bit_length() - modDegree - 1  # Degree difference
+                resultInt ^= poly2Int << degreeDiff  # XOR the mod shifted to align with the leading term
+
+           
+
+            return resultInt
+
+        # For other values of m, use galois
+        else:
+            gf = galois.GF(2**m)
+            fieldPoly1 = gf(poly1Int)
+            fieldPoly2 = gf(poly2Int)
+            resultInt = fieldPoly1
+            modDegree = fieldPoly2.degree
+
+            while resultInt.degree >= modDegree:
+                degreeDiff = resultInt.degree - modDegree
+                resultInt ^= fieldPoly2 << degreeDiff
+
+            return resultInt
 
     except ValueError as e:
         raise ValueError(e)
