@@ -1,5 +1,3 @@
-import galois
-
 def subtraction(
     poly1: str, poly2: str, inputType: str, m: int = 163
 ) -> int:
@@ -14,7 +12,7 @@ def subtraction(
     m (int, optional): The degree of the polynomial field. Defaults to 163.
 
     Returns:
-    integer
+        int: The result of the subtraction in the Galois field.
 
     Raises:
     ValueError: If the input type is invalid or conversion fails.
@@ -30,19 +28,10 @@ def subtraction(
         else:
             raise ValueError("Invalid input type! Use 'binary' or 'hexadecimal'.")
 
-        # For m = 571, use XOR directly
-        if m == 571:
-            resultInt = poly1Int ^ poly2Int  # XOR operation for subtraction in GF(2)
-            return resultInt
-
-        # For other values of m, use galois library
-        else:
-            gf = galois.GF(2**m)
-            fieldPoly1 = gf(poly1Int)
-            fieldPoly2 = gf(poly2Int)
-            result = fieldPoly1 - fieldPoly2  # Subtraction in the Galois Field
-
-            return result
+        if poly1Int >= 2**m or poly2Int >= 2**m:
+            raise ValueError ("Invalid Input for Specified m!")
+        resultInt = poly1Int ^ poly2Int
+        return resultInt
 
     except ValueError as e:
         raise ValueError(e)

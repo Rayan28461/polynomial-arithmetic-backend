@@ -1,8 +1,4 @@
-import galois
-
-def modReduction(
-    poly1: str, poly2: str, inputType: str, m: int = 163
-) -> int:
+def modReduction(poly1: str, poly2: str, inputType: str, m: int = 163) -> int:
     """
     Computes modulo reduction given 2 polynomials (poly1 % poly2) in a Galois Field GF(2^m).
 
@@ -13,7 +9,7 @@ def modReduction(
     m (int, optional): The degree of the polynomial field. Defaults to 163.
 
     Returns:
-    Integer.
+        int: The remainder of the division by poly2 in the Galois field.
 
     Raises:
     ValueError: If the input type is invalid or conversion fails.
@@ -27,28 +23,19 @@ def modReduction(
             poly2Int = int(poly2, 16)
         else:
             raise ValueError("Invalid input type. Use 'binary' or 'hexadecimal'.")
+        if poly1Int >= 2**m or poly2Int >= 2**m:
+            raise ValueError("Not Valid Input for specified m")
+
         if poly2Int == 0:
             raise ValueError("Modulo by zero is not allowed!")
-        
+
         resultInt = 0
-        if m == 571:
-            resultInt = poly1Int
-            modDegree = poly2Int.bit_length() - 1 
+        resultInt = poly1Int
+        modDegree = poly2Int.bit_length() - 1
 
-            while resultInt.bit_length() - 1 >= modDegree:
-                degreeDiff = resultInt.bit_length() - modDegree - 1  
-                resultInt ^= poly2Int << degreeDiff  
-        else:
-            gf = galois.GF(2**m)
-            fieldPoly1 = galois.Poly(poly1Int, field=gf)
-            fieldPoly2 = galois.Poly(poly2Int, field=gf)
-            resultInt = fieldPoly1
-            modDegree = fieldPoly2.degree
-
-            while resultInt.degree >= modDegree:
-                degreeDiff = resultInt.degree - modDegree
-                resultInt ^= fieldPoly2 << degreeDiff
-
+        while resultInt.bit_length() - 1 >= modDegree:
+            degreeDiff = resultInt.bit_length() - modDegree - 1
+            resultInt ^= poly2Int << degreeDiff
         return resultInt
 
     except ValueError as e:
