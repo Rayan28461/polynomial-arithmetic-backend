@@ -234,7 +234,7 @@ async def mod_reduction(
         APIResponse: An API response object containing the result of the modulo reduction and status code.
     """
     try:
-        print("1")
+
         poly1 = request.poly1
         poly2 = request.poly2
         input_type = request.input_type
@@ -254,15 +254,15 @@ async def mod_reduction(
                 data={"result": None},
             )
 
-        print("2")
+
         poly_mod = modReduction(poly1, poly2, input_type, m)
         result = None
-        print("3")
+
         if output_type == "binary":
             result = format(poly_mod, f"0{m}b")
         elif output_type == "hexadecimal":
             result = format(poly_mod, f"0{m//4}x")
-        print("4")
+
         return APIResponse(
             message="Modulo reduction performed successfully!",
             status_code=status.HTTP_200_OK,
