@@ -5,6 +5,7 @@ from fastapi.routing import APIRouter
 
 from src.common.responses import APIResponse, APIResponseModel
 from src.common.utils.types import BinStr, HexStr
+from src.controller.schemas import OperationRequest, InverseRequest
 from src.core.services.addition import add
 from src.core.services.division import divide
 from src.core.services.inverse import inverse as inverse_service
@@ -19,11 +20,7 @@ services_router = APIRouter(prefix="/operations", tags=["Arithmetic Operations"]
     "/addition", response_class=APIResponse, response_model=APIResponseModel
 )
 async def addition(
-    poly1: Union[HexStr, BinStr],
-    poly2: Union[HexStr, BinStr],
-    input_type: str,
-    output_type: str,
-    m: int = 163,
+    request: OperationRequest,
 ) -> APIResponse:
     """
     Endpoint to perform addition of two polynomials.
@@ -39,6 +36,12 @@ async def addition(
         APIResponse: An API response object containing the result of the addition and status code.
     """
     try:
+        poly1 = request.poly1
+        poly2 = request.poly2
+        input_type = request.input_type
+        output_type = request.output_type
+        m = request.m
+
         if input_type not in ["binary", "hexadecimal"]:
             return APIResponse(
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -51,15 +54,15 @@ async def addition(
                 message="Invalid output type.\nPlease provide either 'binary' or 'hexadecimal'.",
                 data={"result": None},
             )
-
+        
         poly_sum = add(poly1, poly2, input_type, m)
         result = None
-
+        
         if output_type == "binary":
             result = format(poly_sum, f"0{m}b")
         elif output_type == "hexadecimal":
             result = format(poly_sum, f"0{m//4}x")
-
+        
         return APIResponse(
             message="Polynomials added successfully!",
             status_code=status.HTTP_200_OK,
@@ -83,11 +86,7 @@ async def addition(
     "/division", response_class=APIResponse, response_model=APIResponseModel
 )
 async def division(
-    poly1: Union[HexStr, BinStr],
-    poly2: Union[HexStr, BinStr],
-    input_type: str,
-    output_type: str,
-    m: int = 163,
+    request: OperationRequest,
 ) -> APIResponse:
     """
     Endpoint to perform division of two polynomials.
@@ -103,7 +102,12 @@ async def division(
         APIResponse: An API response object containing the result of the division and status code.
     """
     try:
-        # Validate input and output types
+        poly1 = request.poly1
+        poly2 = request.poly2
+        input_type = request.input_type
+        output_type = request.output_type
+        m = request.m
+
         if input_type not in ["binary", "hexadecimal"]:
             return APIResponse(
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -131,7 +135,6 @@ async def division(
             data={"result": result},
         )
     except ValueError as e:
-        # (e.g., invalid inputs or division by zero)
         return APIResponse(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             message=str(e),
@@ -149,11 +152,7 @@ async def division(
     "/subtraction", response_class=APIResponse, response_model=APIResponseModel
 )
 async def sub(
-    poly1: Union[HexStr, BinStr],
-    poly2: Union[HexStr, BinStr],
-    input_type: str,
-    output_type: str,
-    m: int = 163,
+    request: OperationRequest,
 ) -> APIResponse:
     """
     Endpoint to perform subtraction of two polynomials.
@@ -169,6 +168,12 @@ async def sub(
         APIResponse: An API response object containing the result of the subtraction and status code.
     """
     try:
+        poly1 = request.poly1
+        poly2 = request.poly2
+        input_type = request.input_type
+        output_type = request.output_type
+        m = request.m
+
         if input_type not in ["binary", "hexadecimal"]:
             return APIResponse(
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -213,11 +218,7 @@ async def sub(
     "/mod-reduction", response_class=APIResponse, response_model=APIResponseModel
 )
 async def mod_reduction(
-    poly1: Union[HexStr, BinStr],
-    poly2: Union[HexStr, BinStr],
-    input_type: str,
-    output_type: str,
-    m: int = 163,
+    request: OperationRequest,
 ) -> APIResponse:
     """
     Endpoint to perform modulo reduction of two polynomials.
@@ -233,6 +234,12 @@ async def mod_reduction(
         APIResponse: An API response object containing the result of the modulo reduction and status code.
     """
     try:
+        poly1 = request.poly1
+        poly2 = request.poly2
+        input_type = request.input_type
+        output_type = request.output_type
+        m = request.m
+
         if input_type not in ["binary", "hexadecimal"]:
             return APIResponse(
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -277,11 +284,7 @@ async def mod_reduction(
     "/multiplication", response_class=APIResponse, response_model=APIResponseModel
 )
 async def multiplication(
-    poly1: Union[HexStr, BinStr],
-    poly2: Union[HexStr, BinStr],
-    input_type: str,
-    output_type: str,
-    m: int = 163,
+    request: OperationRequest,
 ) -> APIResponse:
     """
     Endpoint to perform multiplication of two polynomials over GF(2^m).
@@ -297,6 +300,12 @@ async def multiplication(
         APIResponse: An API response object containing the result of the multiplication and status code.
     """
     try:
+        poly1 = request.poly1
+        poly2 = request.poly2
+        input_type = request.input_type
+        output_type = request.output_type
+        m = request.m
+
         if input_type not in ["binary", "hexadecimal"]:
             return APIResponse(
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -343,12 +352,13 @@ async def multiplication(
     "/inverse", response_class=APIResponse, response_model=APIResponseModel
 )
 async def inverse_operation(
-    poly: Union[HexStr, BinStr],
-    input_type: str,
-    output_type: str,
-    m: int = 8,
+    request: InverseRequest,
 ) -> APIResponse:
     try:
+        poly = request.poly
+        input_type = request.input_type
+        output_type = request.output_type
+        m = request.m
 
         if input_type not in ["binary", "hexadecimal"]:
             return APIResponse(
