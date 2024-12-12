@@ -87,3 +87,4 @@ python cli.py pre-stage
 - [Assaad Mark Rabay](https://github.com/assaad-23)
 - [Karl Gerges](https://github.com/Karl-67)
 - [Georges El Hachem](https://github.com/Georgess31)
+- [Riad Khoury](https://github.com/Riad-13)

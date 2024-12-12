@@ -1,9 +1,8 @@
 import galois
 
-
 def subtraction(
     poly1: str, poly2: str, inputType: str, m: int = 163
-) -> galois.FieldArray:
+) -> int:
     """
     Subtracts 2 polynomials in a Galois Field GF(2^m).
 
@@ -12,36 +11,38 @@ def subtraction(
     poly2: The second polynomial in binary or hexadecimal format.
     poly1 and poly2 are assumed to be valid inputs for GF(2^m).
     inputType: The format of both input polynomials ('binary' or 'hexadecimal').
-    m(int,optional) : The degree of the polynomial field. Set to 163 if not specified.
+    m (int, optional): The degree of the polynomial field. Defaults to 163.
 
     Returns:
-    The result of the subtraction in a the Galois Field .
+    integer
 
     Raises:
     ValueError: If the input type is invalid or conversion fails.
     """
 
-    # Initialize the Galois Field
-    gf = galois.GF(2**m)
-    fieldPoly1 = None
-    fieldPoly2 = None
-
     try:
-        # Convert based on the input type to the integer representation
-        if inputType == "binary":  # If the input is in base 2
-            fieldPoly1 = gf(int(poly1, 2))
-            fieldPoly2 = gf(int(poly2, 2))
-        elif inputType == "hexadecimal":  # If the inut is in base 16
-            fieldPoly1 = gf(int(poly1, 16))
-            fieldPoly2 = gf(int(poly2, 16))
-        else:  # If the input is not in binary or decimal
-            raise ValueError("Invalid input type!")
+        if inputType == "binary":
+            poly1Int = int(poly1, 2)
+            poly2Int = int(poly2, 2)
+        elif inputType == "hexadecimal":
+            poly1Int = int(poly1, 16)
+            poly2Int = int(poly2, 16)
+        else:
+            raise ValueError("Invalid input type! Use 'binary' or 'hexadecimal'.")
 
-        result = (
-            fieldPoly1 - fieldPoly2
-        )  # Compute the subtraction (galois.FieldArray is interger)
+        # For m = 571, use XOR directly
+        if m == 571:
+            resultInt = poly1Int ^ poly2Int  # XOR operation for subtraction in GF(2)
+            return resultInt
 
-        return result  # return the result
+        # For other values of m, use galois library
+        else:
+            gf = galois.GF(2**m)
+            fieldPoly1 = gf(poly1Int)
+            fieldPoly2 = gf(poly2Int)
+            result = fieldPoly1 - fieldPoly2  # Subtraction in the Galois Field
+
+            return result
 
     except ValueError as e:
         raise ValueError(e)
