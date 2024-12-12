@@ -19,7 +19,7 @@ def modReduction(
     ValueError: If the input type is invalid or conversion fails.
     """
     try:
-        # Convert inputs based on the input type
+        print("2.1")
         if inputType == "binary":
             poly1Int = int(poly1, 2)
             poly2Int = int(poly2, 2)
@@ -28,29 +28,26 @@ def modReduction(
             poly2Int = int(poly2, 16)
         else:
             raise ValueError("Invalid input type. Use 'binary' or 'hexadecimal'.")
-
-        # Ensure division by zero is handled
+        print("2.2")
         if poly2Int == 0:
-            raise ValueError("Division by zero is not allowed!")
-
-        # For m = 571, handle manually without galois
+            raise ValueError("Modulo by zero is not allowed!")
+        print("2.3")
+        resultInt = 0
         if m == 571:
+            print("2.4.1")
             resultInt = poly1Int
-            modDegree = poly2Int.bit_length() - 1  # Degree of the modulus polynomial
+            modDegree = poly2Int.bit_length() - 1 
 
             while resultInt.bit_length() - 1 >= modDegree:
-                degreeDiff = resultInt.bit_length() - modDegree - 1  # Degree difference
-                resultInt ^= poly2Int << degreeDiff  # XOR the mod shifted to align with the leading term
-
-           
-
-            return resultInt
-
-        # For other values of m, use galois
+                degreeDiff = resultInt.bit_length() - modDegree - 1  
+                resultInt ^= poly2Int << degreeDiff  
         else:
+            print("2.4.2")
             gf = galois.GF(2**m)
-            fieldPoly1 = gf(poly1Int)
-            fieldPoly2 = gf(poly2Int)
+            print("2.4.3")
+            fieldPoly1 = galois.Poly(poly1Int, field=gf)
+            fieldPoly2 = galois.Poly(poly2Int, field=gf)
+            print("2.4.4")
             resultInt = fieldPoly1
             modDegree = fieldPoly2.degree
 
@@ -58,7 +55,8 @@ def modReduction(
                 degreeDiff = resultInt.degree - modDegree
                 resultInt ^= fieldPoly2 << degreeDiff
 
-            return resultInt
+        print(f"Result: {resultInt}")
+        return resultInt
 
     except ValueError as e:
         raise ValueError(e)
