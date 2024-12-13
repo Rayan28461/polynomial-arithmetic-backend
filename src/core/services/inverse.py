@@ -6,6 +6,22 @@ import galois
 
 
 def inverse(poly: str, input_type: str, m: int = 163) -> str:
+    """
+    Compute the multiplicative inverse of a polynomial in a Galois Field.
+
+    Args:
+        poly (str): The polynomial to invert, represented as a string.
+        input_type (str): The format of the input polynomial, either 'binary' or 'hexadecimal'.
+        m (int, optional): The degree of the Galois Field. Defaults to 163.
+
+    Returns:
+        str: The multiplicative inverse of the polynomial in the same format as the input.
+
+    Raises:
+        ValueError: If the input type is not 'binary' or 'hexadecimal'.
+        ValueError: If the polynomial is not within the valid range for the specified Galois Field.
+        ValueError: If the polynomial is zero, as inversion is not possible for zero.
+    """
     if m == 8:
         gf = galois.GF(2**m, irreducible_poly=0x11B)
     elif m == 233:

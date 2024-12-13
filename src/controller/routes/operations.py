@@ -356,6 +356,18 @@ async def multiplication(
 async def inverse_operation(
     request: InverseRequest,
 ) -> APIResponse:
+    """
+    Handle the inverse operation request.
+
+    Args:
+        request (InverseRequest): The request object containing the polynomial, input type, output type, and degree of the Galois Field.
+
+    Returns:
+        APIResponse: The response object containing the status code, message, and the result of the inverse operation.
+
+    Raises:
+        HTTPException: If the input type or output type is invalid.
+    """
     try:
         poly = request.poly
         input_type = request.input_type
